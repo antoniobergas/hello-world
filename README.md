@@ -26,4 +26,4 @@ npm install
 npm run build
 ```
 
-The production build artifacts will be placed in the `dist/` directory
+The production build artifacts will be placed in the `dist/` directory.
