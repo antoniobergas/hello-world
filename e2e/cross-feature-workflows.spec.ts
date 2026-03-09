@@ -377,12 +377,11 @@ test.describe('Dashboard counter + items combined', () => {
   }) => {
     await page.goto('/');
     await page.locator('button', { hasText: '+' }).click();
-    const countBefore = await page.locator('.count').textContent();
+    await expect(page.locator('.count')).toHaveText('1');
 
     await page.locator('nav.navbar a', { hasText: 'Items' }).click();
     await page.locator('nav.navbar a', { hasText: 'Dashboard' }).click();
-    const countAfter = await page.locator('.count').textContent();
-    expect(Number(countAfter)).toBeGreaterThanOrEqual(Number(countBefore));
+    await expect(page.locator('.count')).toHaveText('1');
   });
 
   test('workflow: submit approval then record metric then check admin health', async ({ page }) => {
