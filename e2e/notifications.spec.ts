@@ -44,9 +44,9 @@ test.describe('Notifications page', () => {
     await page.locator('.clear-btn').click();
     await page.locator('.demo-btn.success').click();
     await page.locator('.demo-btn.success').click();
-    const countBefore = await page.locator('.notification-item').count();
+    await expect(page.locator('.notification-item')).toHaveCount(2);
     await page.locator('.dismiss-btn').first().click();
-    await expect(page.locator('.notification-item')).toHaveCount(countBefore - 1);
+    await expect(page.locator('.notification-item')).toHaveCount(1);
   });
 
   test('clear all removes all notifications and shows empty state', async ({ page }) => {
