@@ -94,7 +94,11 @@ import { PreferencesService, UserPreferences } from '../../services/preferences.
       }
 
       <div class="footer-actions">
-        <button class="reset-btn" (click)="preferencesService.resetToDefaults()" aria-label="Reset to defaults">
+        <button
+          class="reset-btn"
+          (click)="preferencesService.resetToDefaults()"
+          aria-label="Reset to defaults"
+        >
           Reset to Defaults
         </button>
       </div>

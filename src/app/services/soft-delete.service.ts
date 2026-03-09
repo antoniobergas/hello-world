@@ -65,9 +65,7 @@ export class SoftDeleteService {
   purgeExpired(): number {
     const before = this.deletedItemsSubject.value.length;
     const now = new Date();
-    this.deletedItemsSubject.next(
-      this.deletedItemsSubject.value.filter((i) => i.expiresAt > now),
-    );
+    this.deletedItemsSubject.next(this.deletedItemsSubject.value.filter((i) => i.expiresAt > now));
     return before - this.deletedItemsSubject.value.length;
   }
 

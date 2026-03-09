@@ -10,7 +10,11 @@ import { ApprovalService } from '../../services/approval.service';
       <h2>Approval Workflow</h2>
 
       <div class="section-header">
-        <button class="submit-btn" (click)="submitSampleRequest()" aria-label="Submit a sample approval request">
+        <button
+          class="submit-btn"
+          (click)="submitSampleRequest()"
+          aria-label="Submit a sample approval request"
+        >
           + Submit Sample Request
         </button>
       </div>
@@ -23,7 +27,10 @@ import { ApprovalService } from '../../services/approval.service';
             <li class="approval-item pending" [attr.aria-label]="'Pending request: ' + req.title">
               <div class="approval-info">
                 <span class="approval-title">{{ req.title }}</span>
-                <span class="approval-meta">{{ req.type }} · by {{ req.requestedBy }} · {{ req.requestedAt | date: 'short' }}</span>
+                <span class="approval-meta"
+                  >{{ req.type }} · by {{ req.requestedBy }} ·
+                  {{ req.requestedAt | date: 'short' }}</span
+                >
                 <span class="approval-desc">{{ req.description }}</span>
               </div>
               <div class="approval-actions">
@@ -102,7 +109,9 @@ import { ApprovalService } from '../../services/approval.service';
         cursor: pointer;
         font-size: 0.9rem;
       }
-      .submit-btn:hover { background: #2563eb; }
+      .submit-btn:hover {
+        background: #2563eb;
+      }
       .approvals-section {
         border: 1px solid #e2e8f0;
         border-radius: 8px;
@@ -131,9 +140,15 @@ import { ApprovalService } from '../../services/approval.service';
         margin-bottom: 0.5rem;
         border: 1px solid #e2e8f0;
       }
-      .approval-item.pending { border-left: 4px solid #d97706; }
-      .approval-approved { border-left: 4px solid #16a34a; }
-      .approval-rejected { border-left: 4px solid #dc2626; }
+      .approval-item.pending {
+        border-left: 4px solid #d97706;
+      }
+      .approval-approved {
+        border-left: 4px solid #16a34a;
+      }
+      .approval-rejected {
+        border-left: 4px solid #dc2626;
+      }
       .approval-info {
         display: flex;
         flex-direction: column;
@@ -182,8 +197,14 @@ import { ApprovalService } from '../../services/approval.service';
         padding: 0.2rem 0.6rem;
         border-radius: 4px;
       }
-      .badge-approved { background: #dcfce7; color: #16a34a; }
-      .badge-rejected { background: #fee2e2; color: #dc2626; }
+      .badge-approved {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+      .badge-rejected {
+        background: #fee2e2;
+        color: #dc2626;
+      }
       .empty-state {
         color: #94a3b8;
         font-style: italic;

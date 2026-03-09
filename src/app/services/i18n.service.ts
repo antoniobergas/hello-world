@@ -19,26 +19,92 @@ const LOCALE_CONFIGS: Record<SupportedLocale, LocaleConfig> = {
 };
 
 const DEFAULT_TRANSLATIONS: Record<string, Record<SupportedLocale, string>> = {
-  'app.title': { en: 'My App', es: 'Mi Aplicación', fr: 'Mon Application', de: 'Meine App', ja: 'マイアプリ' },
+  'app.title': {
+    en: 'My App',
+    es: 'Mi Aplicación',
+    fr: 'Mon Application',
+    de: 'Meine App',
+    ja: 'マイアプリ',
+  },
   'nav.home': { en: 'Home', es: 'Inicio', fr: 'Accueil', de: 'Startseite', ja: 'ホーム' },
-  'nav.settings': { en: 'Settings', es: 'Configuración', fr: 'Paramètres', de: 'Einstellungen', ja: '設定' },
+  'nav.settings': {
+    en: 'Settings',
+    es: 'Configuración',
+    fr: 'Paramètres',
+    de: 'Einstellungen',
+    ja: '設定',
+  },
   'nav.profile': { en: 'Profile', es: 'Perfil', fr: 'Profil', de: 'Profil', ja: 'プロフィール' },
-  'nav.logout': { en: 'Logout', es: 'Cerrar sesión', fr: 'Déconnexion', de: 'Abmelden', ja: 'ログアウト' },
+  'nav.logout': {
+    en: 'Logout',
+    es: 'Cerrar sesión',
+    fr: 'Déconnexion',
+    de: 'Abmelden',
+    ja: 'ログアウト',
+  },
   'action.save': { en: 'Save', es: 'Guardar', fr: 'Enregistrer', de: 'Speichern', ja: '保存' },
-  'action.cancel': { en: 'Cancel', es: 'Cancelar', fr: 'Annuler', de: 'Abbrechen', ja: 'キャンセル' },
+  'action.cancel': {
+    en: 'Cancel',
+    es: 'Cancelar',
+    fr: 'Annuler',
+    de: 'Abbrechen',
+    ja: 'キャンセル',
+  },
   'action.delete': { en: 'Delete', es: 'Eliminar', fr: 'Supprimer', de: 'Löschen', ja: '削除' },
   'action.edit': { en: 'Edit', es: 'Editar', fr: 'Modifier', de: 'Bearbeiten', ja: '編集' },
   'action.add': { en: 'Add', es: 'Agregar', fr: 'Ajouter', de: 'Hinzufügen', ja: '追加' },
   'action.search': { en: 'Search', es: 'Buscar', fr: 'Rechercher', de: 'Suchen', ja: '検索' },
-  'action.export': { en: 'Export', es: 'Exportar', fr: 'Exporter', de: 'Exportieren', ja: 'エクスポート' },
+  'action.export': {
+    en: 'Export',
+    es: 'Exportar',
+    fr: 'Exporter',
+    de: 'Exportieren',
+    ja: 'エクスポート',
+  },
   'status.active': { en: 'Active', es: 'Activo', fr: 'Actif', de: 'Aktiv', ja: 'アクティブ' },
-  'status.inactive': { en: 'Inactive', es: 'Inactivo', fr: 'Inactif', de: 'Inaktiv', ja: '非アクティブ' },
-  'status.pending': { en: 'Pending', es: 'Pendiente', fr: 'En attente', de: 'Ausstehend', ja: '保留中' },
+  'status.inactive': {
+    en: 'Inactive',
+    es: 'Inactivo',
+    fr: 'Inactif',
+    de: 'Inaktiv',
+    ja: '非アクティブ',
+  },
+  'status.pending': {
+    en: 'Pending',
+    es: 'Pendiente',
+    fr: 'En attente',
+    de: 'Ausstehend',
+    ja: '保留中',
+  },
   'status.error': { en: 'Error', es: 'Error', fr: 'Erreur', de: 'Fehler', ja: 'エラー' },
-  'msg.welcome': { en: 'Welcome, {name}!', es: '¡Bienvenido, {name}!', fr: 'Bienvenue, {name}!', de: 'Willkommen, {name}!', ja: 'ようこそ、{name}！' },
-  'msg.confirm_delete': { en: 'Are you sure you want to delete {item}?', es: '¿Está seguro de que desea eliminar {item}?', fr: 'Êtes-vous sûr de vouloir supprimer {item}?', de: 'Möchten Sie {item} wirklich löschen?', ja: '{item}を削除してもよろしいですか？' },
-  'msg.no_results': { en: 'No results found', es: 'No se encontraron resultados', fr: 'Aucun résultat trouvé', de: 'Keine Ergebnisse gefunden', ja: '結果が見つかりません' },
-  'msg.loading': { en: 'Loading...', es: 'Cargando...', fr: 'Chargement...', de: 'Lädt...', ja: '読み込み中...' },
+  'msg.welcome': {
+    en: 'Welcome, {name}!',
+    es: '¡Bienvenido, {name}!',
+    fr: 'Bienvenue, {name}!',
+    de: 'Willkommen, {name}!',
+    ja: 'ようこそ、{name}！',
+  },
+  'msg.confirm_delete': {
+    en: 'Are you sure you want to delete {item}?',
+    es: '¿Está seguro de que desea eliminar {item}?',
+    fr: 'Êtes-vous sûr de vouloir supprimer {item}?',
+    de: 'Möchten Sie {item} wirklich löschen?',
+    ja: '{item}を削除してもよろしいですか？',
+  },
+  'msg.no_results': {
+    en: 'No results found',
+    es: 'No se encontraron resultados',
+    fr: 'Aucun résultat trouvé',
+    de: 'Keine Ergebnisse gefunden',
+    ja: '結果が見つかりません',
+  },
+  'msg.loading': {
+    en: 'Loading...',
+    es: 'Cargando...',
+    fr: 'Chargement...',
+    de: 'Lädt...',
+    ja: '読み込み中...',
+  },
 };
 
 @Injectable({ providedIn: 'root' })
@@ -83,10 +149,7 @@ export class I18nService {
     const d = String(date.getDate()).padStart(2, '0');
     const m = String(date.getMonth() + 1).padStart(2, '0');
     const y = String(date.getFullYear());
-    return config.dateFormat
-      .replace('DD', d)
-      .replace('MM', m)
-      .replace('YYYY', y);
+    return config.dateFormat.replace('DD', d).replace('MM', m).replace('YYYY', y);
   }
 
   formatNumber(n: number): string {

@@ -120,7 +120,14 @@ describe('BulkOperations + SoftDelete + Activity Integration', () => {
     };
 
     softDelete.softDelete('active-1', 'item', {}, 'admin', 30);
-    const deletedItems = (softDelete as unknown as { deletedItemsSubject: { value: import('./soft-delete.service').DeletedItem[]; next: (v: import('./soft-delete.service').DeletedItem[]) => void } }).deletedItemsSubject;
+    const deletedItems = (
+      softDelete as unknown as {
+        deletedItemsSubject: {
+          value: import('./soft-delete.service').DeletedItem[];
+          next: (v: import('./soft-delete.service').DeletedItem[]) => void;
+        };
+      }
+    ).deletedItemsSubject;
     deletedItems.next([...deletedItems.value, expiredItem]);
 
     expect(softDelete.getItemCount()).toBe(2);

@@ -44,7 +44,11 @@ describe('I18nService', () => {
 
   it('should add and retrieve a new translation', () => {
     service.addTranslation('custom.greeting', {
-      en: 'Hello', es: 'Hola', fr: 'Bonjour', de: 'Hallo', ja: 'こんにちは',
+      en: 'Hello',
+      es: 'Hola',
+      fr: 'Bonjour',
+      de: 'Hallo',
+      ja: 'こんにちは',
     });
     expect(service.translate('custom.greeting')).toBe('Hello');
     service.setLocale('de');

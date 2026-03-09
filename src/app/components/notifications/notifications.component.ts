@@ -104,10 +104,18 @@ import { NotificationService } from '../../services/notification.service';
         border: 1px solid #e2e8f0;
         background: white;
       }
-      .notification-success { border-left: 4px solid #16a34a; }
-      .notification-error { border-left: 4px solid #dc2626; }
-      .notification-info { border-left: 4px solid #2563eb; }
-      .notification-warning { border-left: 4px solid #d97706; }
+      .notification-success {
+        border-left: 4px solid #16a34a;
+      }
+      .notification-error {
+        border-left: 4px solid #dc2626;
+      }
+      .notification-info {
+        border-left: 4px solid #2563eb;
+      }
+      .notification-warning {
+        border-left: 4px solid #d97706;
+      }
       .notification-type-badge {
         font-size: 0.75rem;
         font-weight: 700;
@@ -126,7 +134,9 @@ import { NotificationService } from '../../services/notification.service';
         font-size: 0.875rem;
         padding: 0.2rem 0.4rem;
       }
-      .dismiss-btn:hover { color: #475569; }
+      .dismiss-btn:hover {
+        color: #475569;
+      }
       .empty-state {
         color: #94a3b8;
         font-style: italic;
@@ -156,10 +166,26 @@ import { NotificationService } from '../../services/notification.service';
         cursor: pointer;
         font-size: 0.875rem;
       }
-      .demo-btn.success { background: #dcfce7; color: #16a34a; border-color: #86efac; }
-      .demo-btn.error { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
-      .demo-btn.info { background: #dbeafe; color: #2563eb; border-color: #93c5fd; }
-      .demo-btn.warning { background: #fef9c3; color: #d97706; border-color: #fde047; }
+      .demo-btn.success {
+        background: #dcfce7;
+        color: #16a34a;
+        border-color: #86efac;
+      }
+      .demo-btn.error {
+        background: #fee2e2;
+        color: #dc2626;
+        border-color: #fca5a5;
+      }
+      .demo-btn.info {
+        background: #dbeafe;
+        color: #2563eb;
+        border-color: #93c5fd;
+      }
+      .demo-btn.warning {
+        background: #fef9c3;
+        color: #d97706;
+        border-color: #fde047;
+      }
     `,
   ],
 })

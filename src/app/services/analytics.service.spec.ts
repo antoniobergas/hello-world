@@ -42,20 +42,38 @@ describe('AnalyticsService', () => {
   });
 
   it('should add a widget', () => {
-    const widget: DashboardWidget = { id: 'w1', title: 'CPU', type: 'gauge', data: {}, refreshInterval: 5000 };
+    const widget: DashboardWidget = {
+      id: 'w1',
+      title: 'CPU',
+      type: 'gauge',
+      data: {},
+      refreshInterval: 5000,
+    };
     service.addWidget(widget);
     expect(service.widgets.length).toBe(1);
   });
 
   it('should remove a widget', () => {
-    const widget: DashboardWidget = { id: 'w1', title: 'CPU', type: 'gauge', data: {}, refreshInterval: 5000 };
+    const widget: DashboardWidget = {
+      id: 'w1',
+      title: 'CPU',
+      type: 'gauge',
+      data: {},
+      refreshInterval: 5000,
+    };
     service.addWidget(widget);
     service.removeWidget('w1');
     expect(service.widgets.length).toBe(0);
   });
 
   it('should get widget data by id', () => {
-    const widget: DashboardWidget = { id: 'w1', title: 'CPU', type: 'counter', data: { value: 100 }, refreshInterval: 1000 };
+    const widget: DashboardWidget = {
+      id: 'w1',
+      title: 'CPU',
+      type: 'counter',
+      data: { value: 100 },
+      refreshInterval: 1000,
+    };
     service.addWidget(widget);
     expect(service.getWidgetData('w1')).toEqual({ value: 100 });
   });

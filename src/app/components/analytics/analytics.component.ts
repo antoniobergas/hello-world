@@ -13,7 +13,11 @@ import { AnalyticsService } from '../../services/analytics.service';
       <div class="analytics-section" aria-label="Record metrics">
         <h3>Record Metric</h3>
         <div class="record-row">
-          <button class="sample-btn" (click)="recordSampleMetric()" aria-label="Record sample metric">
+          <button
+            class="sample-btn"
+            (click)="recordSampleMetric()"
+            aria-label="Record sample metric"
+          >
             Record Sample Metric
           </button>
           <span class="metric-count">
@@ -80,7 +84,10 @@ import { AnalyticsService } from '../../services/analytics.service';
         <h3>Top Metrics</h3>
         <ul class="top-metrics-list">
           @for (item of getTopMetrics(); track item.name) {
-            <li class="top-metric-item" [attr.aria-label]="'Metric ' + item.name + ': total ' + item.total">
+            <li
+              class="top-metric-item"
+              [attr.aria-label]="'Metric ' + item.name + ': total ' + item.total"
+            >
               <span class="top-metric-name">{{ item.name }}</span>
               <span class="top-metric-total">{{ item.total | number: '1.2-2' }}</span>
             </li>
@@ -130,7 +137,9 @@ import { AnalyticsService } from '../../services/analytics.service';
         border-radius: 4px;
         cursor: pointer;
       }
-      .sample-btn:hover { background: #2563eb; }
+      .sample-btn:hover {
+        background: #2563eb;
+      }
       .add-widget-btn {
         margin-top: 0.75rem;
         padding: 0.35rem 0.85rem;
@@ -187,7 +196,10 @@ import { AnalyticsService } from '../../services/analytics.service';
         padding: 0.4rem 0.5rem;
         border-bottom: 1px solid #f1f5f9;
       }
-      .metric-name { font-weight: 600; color: #1e293b; }
+      .metric-name {
+        font-weight: 600;
+        color: #1e293b;
+      }
       .top-metrics-list {
         list-style: none;
         padding: 0;
@@ -199,8 +211,14 @@ import { AnalyticsService } from '../../services/analytics.service';
         padding: 0.4rem 0;
         border-bottom: 1px solid #f1f5f9;
       }
-      .top-metric-name { font-weight: 600; color: #1e293b; }
-      .top-metric-total { color: #3b82f6; font-weight: 600; }
+      .top-metric-name {
+        font-weight: 600;
+        color: #1e293b;
+      }
+      .top-metric-total {
+        color: #3b82f6;
+        font-weight: 600;
+      }
       .empty-state {
         color: #94a3b8;
         font-style: italic;
@@ -224,7 +242,12 @@ export class AnalyticsComponent {
 
   addSampleWidget(): void {
     this.widgetCount++;
-    const types: Array<'counter' | 'chart' | 'table' | 'gauge'> = ['counter', 'chart', 'table', 'gauge'];
+    const types: Array<'counter' | 'chart' | 'table' | 'gauge'> = [
+      'counter',
+      'chart',
+      'table',
+      'gauge',
+    ];
     this.analyticsService.addWidget({
       id: `widget-${this.widgetCount}`,
       title: `Widget ${this.widgetCount}`,
@@ -234,7 +257,10 @@ export class AnalyticsComponent {
     });
   }
 
-  getSummaryEntries(): Array<{ key: string; value: { count: number; sum: number; avg: number; max: number; min: number } }> {
+  getSummaryEntries(): Array<{
+    key: string;
+    value: { count: number; sum: number; avg: number; max: number; min: number };
+  }> {
     const summary = this.analyticsService.computeSummary();
     return Object.entries(summary).map(([key, value]) => ({ key, value }));
   }

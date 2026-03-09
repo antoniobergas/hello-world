@@ -9,7 +9,10 @@
     "test": "ng test",
     "test:coverage": "ng test --coverage --coverage-reporters=lcov --coverage-reporters=text-summary",
     "format:check": "prettier --check \"src/**/*.ts\"",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:integration": "ng test --include=\"**/*.integration.spec.ts\"",
+    "build:prod": "ng build --configuration production",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "private": true,
   "packageManager": "npm@11.9.0",

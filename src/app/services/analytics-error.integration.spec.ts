@@ -27,7 +27,9 @@ describe('Analytics + ErrorReporting + Notification Integration', () => {
   });
 
   it('should create an error report when an error is reported', () => {
-    const report = errorReporting.reportError('Something went wrong', 'stack trace here', 'error', { component: 'dashboard' });
+    const report = errorReporting.reportError('Something went wrong', 'stack trace here', 'error', {
+      component: 'dashboard',
+    });
     expect(errorReporting.reports).toHaveLength(1);
     expect(report.message).toBe('Something went wrong');
     expect(report.level).toBe('error');

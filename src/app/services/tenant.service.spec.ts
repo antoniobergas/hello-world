@@ -43,7 +43,13 @@ describe('TenantService', () => {
   });
 
   it('should add a new tenant', () => {
-    const newTenant: Tenant = { id: 't4', name: 'NewCo', domain: 'newco.com', plan: 'pro', active: true };
+    const newTenant: Tenant = {
+      id: 't4',
+      name: 'NewCo',
+      domain: 'newco.com',
+      plan: 'pro',
+      active: true,
+    };
     service.addTenant(newTenant);
     expect(service.tenants.length).toBe(4);
     expect(service.getTenant('t4')?.name).toBe('NewCo');
@@ -66,7 +72,13 @@ describe('TenantService', () => {
   });
 
   it('should emit updated list via tenants$ after addTenant', async () => {
-    const newTenant: Tenant = { id: 't5', name: 'BetaCo', domain: 'betaco.com', plan: 'free', active: true };
+    const newTenant: Tenant = {
+      id: 't5',
+      name: 'BetaCo',
+      domain: 'betaco.com',
+      plan: 'free',
+      active: true,
+    };
     service.addTenant(newTenant);
     const tenants = await firstValueFrom(service.tenants$);
     expect(tenants.length).toBe(4);

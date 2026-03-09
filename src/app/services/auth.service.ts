@@ -42,9 +42,7 @@ export class AuthService {
 
   readonly authState$: Observable<AuthState> = this.authStateSubject.asObservable();
 
-  readonly currentUser$: Observable<AuthUser | null> = this.authState$.pipe(
-    map((s) => s.user),
-  );
+  readonly currentUser$: Observable<AuthUser | null> = this.authState$.pipe(map((s) => s.user));
 
   get state(): AuthState {
     return this.authStateSubject.value;

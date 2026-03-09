@@ -58,9 +58,7 @@ export class SchedulerService {
     this.historyMap.set(id, history);
     this.jobsSubject.next(
       this.jobsSubject.value.map((j) =>
-        j.id === id
-          ? { ...j, lastRun: now, status: 'idle', runCount: j.runCount + 1 }
-          : j,
+        j.id === id ? { ...j, lastRun: now, status: 'idle', runCount: j.runCount + 1 } : j,
       ),
     );
   }

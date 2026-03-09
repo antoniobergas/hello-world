@@ -40,9 +40,7 @@ export class AnalyticsService {
   }
 
   getMetricHistory(name: string, since: Date): MetricSnapshot[] {
-    return this.metricsSubject.value.filter(
-      (m) => m.metricName === name && m.timestamp >= since,
-    );
+    return this.metricsSubject.value.filter((m) => m.metricName === name && m.timestamp >= since);
   }
 
   addWidget(widget: DashboardWidget): void {
@@ -57,8 +55,14 @@ export class AnalyticsService {
     return this.widgetsSubject.value.find((w) => w.id === id)?.data ?? null;
   }
 
-  computeSummary(): Record<string, { count: number; sum: number; avg: number; max: number; min: number }> {
-    const summary: Record<string, { count: number; sum: number; avg: number; max: number; min: number }> = {};
+  computeSummary(): Record<
+    string,
+    { count: number; sum: number; avg: number; max: number; min: number }
+  > {
+    const summary: Record<
+      string,
+      { count: number; sum: number; avg: number; max: number; min: number }
+    > = {};
     for (const m of this.metricsSubject.value) {
       if (!summary[m.metricName]) {
         summary[m.metricName] = { count: 0, sum: 0, avg: 0, max: -Infinity, min: Infinity };
