@@ -19,12 +19,30 @@ describe('WorkspaceService', () => {
 
   it('should create a new workspace', () => {
     const before = service.workspaces.length;
-    service.create({ name: 'New WS', slug: 'new-ws', description: '', tenantId: 't1', ownerId: 'u1', memberIds: [], settings: { allowGuestAccess: false, defaultRole: 'viewer', features: [] }, archived: false });
+    service.create({
+      name: 'New WS',
+      slug: 'new-ws',
+      description: '',
+      tenantId: 't1',
+      ownerId: 'u1',
+      memberIds: [],
+      settings: { allowGuestAccess: false, defaultRole: 'viewer', features: [] },
+      archived: false,
+    });
     expect(service.workspaces.length).toBe(before + 1);
   });
 
   it('should create assigns UUID and createdAt', () => {
-    const ws = service.create({ name: 'New WS', slug: 'new-ws', description: '', tenantId: 't1', ownerId: 'u1', memberIds: [], settings: { allowGuestAccess: false, defaultRole: 'viewer', features: [] }, archived: false });
+    const ws = service.create({
+      name: 'New WS',
+      slug: 'new-ws',
+      description: '',
+      tenantId: 't1',
+      ownerId: 'u1',
+      memberIds: [],
+      settings: { allowGuestAccess: false, defaultRole: 'viewer', features: [] },
+      archived: false,
+    });
     expect(ws.id).toBeTruthy();
     expect(ws.createdAt).toBeInstanceOf(Date);
   });
@@ -95,7 +113,13 @@ describe('WorkspaceService', () => {
   });
 
   it('should update workspace settings', () => {
-    service.update('ws2', { settings: { allowGuestAccess: false, defaultRole: 'editor', features: ['campaigns', 'analytics'] } });
+    service.update('ws2', {
+      settings: {
+        allowGuestAccess: false,
+        defaultRole: 'editor',
+        features: ['campaigns', 'analytics'],
+      },
+    });
     const ws = service.workspaces.find((w) => w.id === 'ws2')!;
     expect(ws.settings.allowGuestAccess).toBe(false);
     expect(ws.settings.features).toContain('analytics');

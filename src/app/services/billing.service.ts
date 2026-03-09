@@ -30,19 +30,99 @@ const PLAN_AMOUNTS: Record<BillingAccount['plan'], number> = {
 };
 
 const INITIAL_ACCOUNTS: BillingAccount[] = [
-  { id: 'ba1', tenantId: 't1', plan: 'enterprise', billingCycle: 'annual', status: 'active', nextBillingDate: new Date('2025-01-01'), amount: 499 * 12 * 0.9, currency: 'USD' },
-  { id: 'ba2', tenantId: 't2', plan: 'growth', billingCycle: 'monthly', status: 'active', nextBillingDate: new Date('2025-02-01'), amount: 99, currency: 'USD' },
-  { id: 'ba3', tenantId: 't3', plan: 'starter', billingCycle: 'monthly', status: 'past_due', nextBillingDate: new Date('2025-01-15'), amount: 29, currency: 'USD' },
-  { id: 'ba4', tenantId: 't4', plan: 'free', billingCycle: 'monthly', status: 'active', nextBillingDate: new Date('2025-02-15'), amount: 0, currency: 'USD' },
-  { id: 'ba5', tenantId: 't5', plan: 'growth', billingCycle: 'annual', status: 'cancelled', nextBillingDate: new Date('2024-12-01'), amount: 99 * 12 * 0.9, currency: 'USD' },
+  {
+    id: 'ba1',
+    tenantId: 't1',
+    plan: 'enterprise',
+    billingCycle: 'annual',
+    status: 'active',
+    nextBillingDate: new Date('2025-01-01'),
+    amount: 499 * 12 * 0.9,
+    currency: 'USD',
+  },
+  {
+    id: 'ba2',
+    tenantId: 't2',
+    plan: 'growth',
+    billingCycle: 'monthly',
+    status: 'active',
+    nextBillingDate: new Date('2025-02-01'),
+    amount: 99,
+    currency: 'USD',
+  },
+  {
+    id: 'ba3',
+    tenantId: 't3',
+    plan: 'starter',
+    billingCycle: 'monthly',
+    status: 'past_due',
+    nextBillingDate: new Date('2025-01-15'),
+    amount: 29,
+    currency: 'USD',
+  },
+  {
+    id: 'ba4',
+    tenantId: 't4',
+    plan: 'free',
+    billingCycle: 'monthly',
+    status: 'active',
+    nextBillingDate: new Date('2025-02-15'),
+    amount: 0,
+    currency: 'USD',
+  },
+  {
+    id: 'ba5',
+    tenantId: 't5',
+    plan: 'growth',
+    billingCycle: 'annual',
+    status: 'cancelled',
+    nextBillingDate: new Date('2024-12-01'),
+    amount: 99 * 12 * 0.9,
+    currency: 'USD',
+  },
 ];
 
 const INITIAL_PAYMENTS: PaymentRecord[] = [
-  { id: 'pay1', accountId: 'ba1', amount: 499 * 12 * 0.9, date: new Date('2024-01-01'), status: 'paid', invoiceId: 'inv1' },
-  { id: 'pay2', accountId: 'ba2', amount: 99, date: new Date('2024-12-01'), status: 'paid', invoiceId: 'inv2' },
-  { id: 'pay3', accountId: 'ba3', amount: 29, date: new Date('2024-12-15'), status: 'failed', invoiceId: 'inv3' },
-  { id: 'pay4', accountId: 'ba2', amount: 99, date: new Date('2024-11-01'), status: 'paid', invoiceId: 'inv4' },
-  { id: 'pay5', accountId: 'ba1', amount: 499 * 12 * 0.9, date: new Date('2023-01-01'), status: 'paid', invoiceId: 'inv5' },
+  {
+    id: 'pay1',
+    accountId: 'ba1',
+    amount: 499 * 12 * 0.9,
+    date: new Date('2024-01-01'),
+    status: 'paid',
+    invoiceId: 'inv1',
+  },
+  {
+    id: 'pay2',
+    accountId: 'ba2',
+    amount: 99,
+    date: new Date('2024-12-01'),
+    status: 'paid',
+    invoiceId: 'inv2',
+  },
+  {
+    id: 'pay3',
+    accountId: 'ba3',
+    amount: 29,
+    date: new Date('2024-12-15'),
+    status: 'failed',
+    invoiceId: 'inv3',
+  },
+  {
+    id: 'pay4',
+    accountId: 'ba2',
+    amount: 99,
+    date: new Date('2024-11-01'),
+    status: 'paid',
+    invoiceId: 'inv4',
+  },
+  {
+    id: 'pay5',
+    accountId: 'ba1',
+    amount: 499 * 12 * 0.9,
+    date: new Date('2023-01-01'),
+    status: 'paid',
+    invoiceId: 'inv5',
+  },
 ];
 
 @Injectable({ providedIn: 'root' })
@@ -65,7 +145,11 @@ export class BillingService {
     return this.accountsSubject.value.find((a) => a.tenantId === tenantId);
   }
 
-  upgradePlan(tenantId: string, plan: BillingAccount['plan'], billingCycle: BillingAccount['billingCycle']): void {
+  upgradePlan(
+    tenantId: string,
+    plan: BillingAccount['plan'],
+    billingCycle: BillingAccount['billingCycle'],
+  ): void {
     const amount = billingCycle === 'annual' ? PLAN_AMOUNTS[plan] * 12 * 0.9 : PLAN_AMOUNTS[plan];
     this.accountsSubject.next(
       this.accountsSubject.value.map((a) =>

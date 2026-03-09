@@ -18,18 +18,51 @@ describe('TicketService', () => {
   });
 
   it('should create a ticket with UUID', () => {
-    const t = service.create({ title: 'T', description: '', status: 'open', priority: 'low', type: 'support', assigneeId: null, reporterId: 'u1', tenantId: 't1', tags: [], escalated: false });
+    const t = service.create({
+      title: 'T',
+      description: '',
+      status: 'open',
+      priority: 'low',
+      type: 'support',
+      assigneeId: null,
+      reporterId: 'u1',
+      tenantId: 't1',
+      tags: [],
+      escalated: false,
+    });
     expect(t.id).toBeTruthy();
   });
 
   it('should create adds to tickets list', () => {
     const before = service.tickets.length;
-    service.create({ title: 'T', description: '', status: 'open', priority: 'low', type: 'support', assigneeId: null, reporterId: 'u1', tenantId: 't1', tags: [], escalated: false });
+    service.create({
+      title: 'T',
+      description: '',
+      status: 'open',
+      priority: 'low',
+      type: 'support',
+      assigneeId: null,
+      reporterId: 'u1',
+      tenantId: 't1',
+      tags: [],
+      escalated: false,
+    });
     expect(service.tickets.length).toBe(before + 1);
   });
 
   it('should create sets createdAt and updatedAt', () => {
-    const t = service.create({ title: 'T', description: '', status: 'open', priority: 'low', type: 'support', assigneeId: null, reporterId: 'u1', tenantId: 't1', tags: [], escalated: false });
+    const t = service.create({
+      title: 'T',
+      description: '',
+      status: 'open',
+      priority: 'low',
+      type: 'support',
+      assigneeId: null,
+      reporterId: 'u1',
+      tenantId: 't1',
+      tags: [],
+      escalated: false,
+    });
     expect(t.createdAt).toBeInstanceOf(Date);
     expect(t.updatedAt).toBeInstanceOf(Date);
   });

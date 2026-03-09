@@ -26,13 +26,21 @@ describe('CommandPaletteService', () => {
   });
 
   it('should register a new command', () => {
-    service.register({ id: 'cmd99', label: 'Test', description: 'Test cmd', icon: 'test', category: 'actions', action: 'test', keywords: [] });
+    service.register({
+      id: 'cmd99',
+      label: 'Test',
+      description: 'Test cmd',
+      icon: 'test',
+      category: 'actions',
+      action: 'test',
+      keywords: [],
+    });
     expect(service.commands.length).toBe(22);
   });
 
   it('should unregister a command', () => {
     service.unregister('cmd1');
-    expect(service.commands.find(c => c.id === 'cmd1')).toBeUndefined();
+    expect(service.commands.find((c) => c.id === 'cmd1')).toBeUndefined();
     expect(service.commands.length).toBe(20);
   });
 
@@ -49,7 +57,7 @@ describe('CommandPaletteService', () => {
 
   it('should search by description', () => {
     const results = service.search('keyboard shortcuts');
-    expect(results.some(c => c.id === 'cmd18')).toBe(true);
+    expect(results.some((c) => c.id === 'cmd18')).toBe(true);
   });
 
   it('should search by keywords', () => {
@@ -82,7 +90,7 @@ describe('CommandPaletteService', () => {
     service.addToRecent('cmd1');
     const recent = service.getRecent();
     expect(recent[0].id).toBe('cmd1');
-    expect(recent.filter(c => c.id === 'cmd1').length).toBe(1);
+    expect(recent.filter((c) => c.id === 'cmd1').length).toBe(1);
   });
 
   it('should getRecent returns most recent first', () => {
@@ -102,7 +110,7 @@ describe('CommandPaletteService', () => {
 
   it('should getByCategory navigation', () => {
     const nav = service.getByCategory('navigation');
-    expect(nav.every(c => c.category === 'navigation')).toBe(true);
+    expect(nav.every((c) => c.category === 'navigation')).toBe(true);
     expect(nav.length).toBeGreaterThan(0);
   });
 
@@ -123,6 +131,6 @@ describe('CommandPaletteService', () => {
   });
 
   it('should have cmd1 in pre-registered commands', () => {
-    expect(service.commands.find(c => c.id === 'cmd1')).toBeTruthy();
+    expect(service.commands.find((c) => c.id === 'cmd1')).toBeTruthy();
   });
 });

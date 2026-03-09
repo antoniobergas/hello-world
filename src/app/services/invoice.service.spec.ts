@@ -19,12 +19,32 @@ describe('InvoiceService', () => {
 
   it('should create a new invoice', () => {
     const before = service.invoices.length;
-    service.create({ number: 'INV-099', tenantId: 't1', status: 'draft', items: [], subtotal: 100, tax: 10, total: 110, issuedAt: new Date(), dueAt: new Date() });
+    service.create({
+      number: 'INV-099',
+      tenantId: 't1',
+      status: 'draft',
+      items: [],
+      subtotal: 100,
+      tax: 10,
+      total: 110,
+      issuedAt: new Date(),
+      dueAt: new Date(),
+    });
     expect(service.invoices.length).toBe(before + 1);
   });
 
   it('should create assigns a UUID', () => {
-    const inv = service.create({ number: 'INV-099', tenantId: 't1', status: 'draft', items: [], subtotal: 100, tax: 10, total: 110, issuedAt: new Date(), dueAt: new Date() });
+    const inv = service.create({
+      number: 'INV-099',
+      tenantId: 't1',
+      status: 'draft',
+      items: [],
+      subtotal: 100,
+      tax: 10,
+      total: 110,
+      issuedAt: new Date(),
+      dueAt: new Date(),
+    });
     expect(inv.id).toBeTruthy();
   });
 
@@ -104,7 +124,17 @@ describe('InvoiceService', () => {
   });
 
   it('should update count after create in getTotals', () => {
-    service.create({ number: 'INV-099', tenantId: 't1', status: 'draft', items: [], subtotal: 0, tax: 0, total: 0, issuedAt: new Date(), dueAt: new Date() });
+    service.create({
+      number: 'INV-099',
+      tenantId: 't1',
+      status: 'draft',
+      items: [],
+      subtotal: 0,
+      tax: 0,
+      total: 0,
+      issuedAt: new Date(),
+      dueAt: new Date(),
+    });
     expect(service.getTotals().count).toBe(21);
   });
 });

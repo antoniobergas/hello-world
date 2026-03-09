@@ -21,7 +21,15 @@ describe('ReportBuilderService', () => {
   });
 
   it('should create a report with UUID and defaults', () => {
-    const r = service.create({ name: 'Test', description: 'Desc', entity: 'tickets', groupBy: undefined, sortBy: 'id', sortDir: 'asc', createdBy: 'u1' });
+    const r = service.create({
+      name: 'Test',
+      description: 'Desc',
+      entity: 'tickets',
+      groupBy: undefined,
+      sortBy: 'id',
+      sortDir: 'asc',
+      createdBy: 'u1',
+    });
     expect(r.id).toBeTruthy();
     expect(typeof r.id).toBe('string');
     expect(r.status).toBe('draft');
@@ -32,41 +40,48 @@ describe('ReportBuilderService', () => {
   });
 
   it('should add created report to list', () => {
-    service.create({ name: 'X', description: 'X', entity: 'customers', sortBy: 'id', sortDir: 'asc', createdBy: 'u1' });
+    service.create({
+      name: 'X',
+      description: 'X',
+      entity: 'customers',
+      sortBy: 'id',
+      sortDir: 'asc',
+      createdBy: 'u1',
+    });
     expect(service.reports.length).toBe(9);
   });
 
   it('should save a report', () => {
     service.save('rep4');
-    expect(service.reports.find(r => r.id === 'rep4')?.status).toBe('saved');
+    expect(service.reports.find((r) => r.id === 'rep4')?.status).toBe('saved');
   });
 
   it('should addColumn', () => {
     service.addColumn('rep4', { field: 'name', label: 'Name', type: 'string', visible: true });
-    expect(service.reports.find(r => r.id === 'rep4')?.columns.length).toBe(1);
+    expect(service.reports.find((r) => r.id === 'rep4')?.columns.length).toBe(1);
   });
 
   it('should removeColumn by field', () => {
     service.addColumn('rep4', { field: 'name', label: 'Name', type: 'string', visible: true });
     service.removeColumn('rep4', 'name');
-    expect(service.reports.find(r => r.id === 'rep4')?.columns.length).toBe(0);
+    expect(service.reports.find((r) => r.id === 'rep4')?.columns.length).toBe(0);
   });
 
   it('should addFilter', () => {
     service.addFilter('rep4', { field: 'status', operator: 'eq', value: 'open' });
-    expect(service.reports.find(r => r.id === 'rep4')?.filters.length).toBe(1);
+    expect(service.reports.find((r) => r.id === 'rep4')?.filters.length).toBe(1);
   });
 
   it('should removeFilter by field', () => {
     service.addFilter('rep4', { field: 'status', operator: 'eq', value: 'open' });
     service.removeFilter('rep4', 'status');
-    expect(service.reports.find(r => r.id === 'rep4')?.filters.length).toBe(0);
+    expect(service.reports.find((r) => r.id === 'rep4')?.filters.length).toBe(0);
   });
 
   it('should run increments runCount and sets lastRunAt', () => {
-    const before = service.reports.find(r => r.id === 'rep1')!.runCount;
+    const before = service.reports.find((r) => r.id === 'rep1')!.runCount;
     service.run('rep1');
-    const after = service.reports.find(r => r.id === 'rep1')!;
+    const after = service.reports.find((r) => r.id === 'rep1')!;
     expect(after.runCount).toBe(before + 1);
     expect(after.lastRunAt).toBeInstanceOf(Date);
   });
@@ -77,14 +92,14 @@ describe('ReportBuilderService', () => {
 
   it('should schedule sets status and cron', () => {
     service.schedule('rep4', '0 9 * * 1');
-    const r = service.reports.find(r => r.id === 'rep4')!;
+    const r = service.reports.find((r) => r.id === 'rep4')!;
     expect(r.status).toBe('scheduled');
     expect(r.schedule).toBe('0 9 * * 1');
   });
 
   it('should getByEntity tickets', () => {
     const tickets = service.getByEntity('tickets');
-    expect(tickets.every(r => r.entity === 'tickets')).toBe(true);
+    expect(tickets.every((r) => r.entity === 'tickets')).toBe(true);
     expect(tickets.length).toBe(2);
   });
 
@@ -105,13 +120,20 @@ describe('ReportBuilderService', () => {
   });
 
   it('should update observable after create', async () => {
-    service.create({ name: 'X', description: 'X', entity: 'invoices', sortBy: 'id', sortDir: 'asc', createdBy: 'u1' });
+    service.create({
+      name: 'X',
+      description: 'X',
+      entity: 'invoices',
+      sortBy: 'id',
+      sortDir: 'asc',
+      createdBy: 'u1',
+    });
     const reports = await firstValueFrom(service.reports$);
     expect(reports.length).toBe(9);
   });
 
   it('should have rep1 in seed data', () => {
-    expect(service.reports.find(r => r.id === 'rep1')).toBeTruthy();
+    expect(service.reports.find((r) => r.id === 'rep1')).toBeTruthy();
   });
 
   it('should getMostRun rep3 has highest runCount (50)', () => {

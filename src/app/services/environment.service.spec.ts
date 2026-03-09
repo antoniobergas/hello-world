@@ -30,27 +30,41 @@ describe('EnvironmentService', () => {
   });
 
   it('should create an environment with UUID and deployCount=0', () => {
-    const env = service.create({ name: 'Test', slug: 'test', type: 'development', tenantId: 't1', config: {}, status: 'active' });
+    const env = service.create({
+      name: 'Test',
+      slug: 'test',
+      type: 'development',
+      tenantId: 't1',
+      config: {},
+      status: 'active',
+    });
     expect(env.id).toBeTruthy();
     expect(typeof env.id).toBe('string');
     expect(env.deployCount).toBe(0);
   });
 
   it('should add created environment to list', () => {
-    service.create({ name: 'X', slug: 'x', type: 'staging', tenantId: 't1', config: {}, status: 'active' });
+    service.create({
+      name: 'X',
+      slug: 'x',
+      type: 'staging',
+      tenantId: 't1',
+      config: {},
+      status: 'active',
+    });
     expect(service.environments.length).toBe(9);
   });
 
   it('should lock an environment', () => {
     service.lock('env1', 'u1');
-    const env = service.environments.find(e => e.id === 'env1')!;
+    const env = service.environments.find((e) => e.id === 'env1')!;
     expect(env.status).toBe('locked');
     expect(env.lockedBy).toBe('u1');
   });
 
   it('should unlock an environment', () => {
     service.unlock('env3');
-    const env = service.environments.find(e => e.id === 'env3')!;
+    const env = service.environments.find((e) => e.id === 'env3')!;
     expect(env.status).toBe('active');
     expect(env.lockedBy).toBeUndefined();
   });
@@ -72,7 +86,7 @@ describe('EnvironmentService', () => {
   it('should approvePromotion sets approved status and approvedBy', () => {
     const p = service.promote('env1', 'env2', 'u1');
     service.approvePromotion(p.id, 'u2');
-    const approved = service.promotions.find(x => x.id === p.id)!;
+    const approved = service.promotions.find((x) => x.id === p.id)!;
     expect(approved.status).toBe('approved');
     expect(approved.approvedBy).toBe('u2');
   });
@@ -80,27 +94,27 @@ describe('EnvironmentService', () => {
   it('should deployPromotion sets deployed status and deployedAt', () => {
     const p = service.promote('env1', 'env2', 'u1');
     service.deployPromotion(p.id);
-    const deployed = service.promotions.find(x => x.id === p.id)!;
+    const deployed = service.promotions.find((x) => x.id === p.id)!;
     expect(deployed.status).toBe('deployed');
     expect(deployed.deployedAt).toBeInstanceOf(Date);
   });
 
   it('should deployPromotion increments target env deployCount', () => {
-    const before = service.environments.find(e => e.id === 'env2')!.deployCount;
+    const before = service.environments.find((e) => e.id === 'env2')!.deployCount;
     const p = service.promote('env1', 'env2', 'u1');
     service.deployPromotion(p.id);
-    expect(service.environments.find(e => e.id === 'env2')!.deployCount).toBe(before + 1);
+    expect(service.environments.find((e) => e.id === 'env2')!.deployCount).toBe(before + 1);
   });
 
   it('should deployPromotion sets lastDeployedAt on target', () => {
     const p = service.promote('env5', 'env6', 'u2');
     service.deployPromotion(p.id);
-    expect(service.environments.find(e => e.id === 'env6')!.lastDeployedAt).toBeInstanceOf(Date);
+    expect(service.environments.find((e) => e.id === 'env6')!.lastDeployedAt).toBeInstanceOf(Date);
   });
 
   it('should getByTenant t1', () => {
     const t1 = service.getByTenant('t1');
-    expect(t1.every(e => e.tenantId === 't1')).toBe(true);
+    expect(t1.every((e) => e.tenantId === 't1')).toBe(true);
     expect(t1.length).toBe(4);
   });
 
@@ -121,12 +135,12 @@ describe('EnvironmentService', () => {
   });
 
   it('should have env1 in seed data', () => {
-    expect(service.environments.find(e => e.id === 'env1')).toBeTruthy();
+    expect(service.environments.find((e) => e.id === 'env1')).toBeTruthy();
   });
 
   it('should deployPromotion does nothing for unknown promotion', () => {
-    const before = service.environments.map(e => e.deployCount);
+    const before = service.environments.map((e) => e.deployCount);
     service.deployPromotion('unknown');
-    expect(service.environments.map(e => e.deployCount)).toEqual(before);
+    expect(service.environments.map((e) => e.deployCount)).toEqual(before);
   });
 });

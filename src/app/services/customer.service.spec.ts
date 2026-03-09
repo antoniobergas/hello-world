@@ -19,18 +19,48 @@ describe('CustomerService', () => {
 
   it('should add a new customer', () => {
     const before = service.customers.length;
-    service.add({ name: 'New User', email: 'new@test.com', phone: '555-9999', company: 'TestCo', plan: 'starter', status: 'active', tags: [], contractValue: 1000, ownerId: 'u1' });
+    service.add({
+      name: 'New User',
+      email: 'new@test.com',
+      phone: '555-9999',
+      company: 'TestCo',
+      plan: 'starter',
+      status: 'active',
+      tags: [],
+      contractValue: 1000,
+      ownerId: 'u1',
+    });
     expect(service.customers.length).toBe(before + 1);
   });
 
   it('should assign a UUID on add', () => {
-    const c = service.add({ name: 'New User', email: 'new@test.com', phone: '555-9999', company: 'TestCo', plan: 'starter', status: 'active', tags: [], contractValue: 1000, ownerId: 'u1' });
+    const c = service.add({
+      name: 'New User',
+      email: 'new@test.com',
+      phone: '555-9999',
+      company: 'TestCo',
+      plan: 'starter',
+      status: 'active',
+      tags: [],
+      contractValue: 1000,
+      ownerId: 'u1',
+    });
     expect(c.id).toBeTruthy();
     expect(typeof c.id).toBe('string');
   });
 
   it('should assign createdAt on add', () => {
-    const c = service.add({ name: 'New User', email: 'new@test.com', phone: '555-9999', company: 'TestCo', plan: 'starter', status: 'active', tags: [], contractValue: 1000, ownerId: 'u1' });
+    const c = service.add({
+      name: 'New User',
+      email: 'new@test.com',
+      phone: '555-9999',
+      company: 'TestCo',
+      plan: 'starter',
+      status: 'active',
+      tags: [],
+      contractValue: 1000,
+      ownerId: 'u1',
+    });
     expect(c.createdAt).toBeInstanceOf(Date);
   });
 
@@ -111,7 +141,17 @@ describe('CustomerService', () => {
 
   it('should stats update after add', () => {
     const before = service.getStats().total;
-    service.add({ name: 'New', email: 'n@n.com', phone: '555-0000', company: 'NewCo', plan: 'starter', status: 'active', tags: [], contractValue: 500, ownerId: 'u1' });
+    service.add({
+      name: 'New',
+      email: 'n@n.com',
+      phone: '555-0000',
+      company: 'NewCo',
+      plan: 'starter',
+      status: 'active',
+      tags: [],
+      contractValue: 500,
+      ownerId: 'u1',
+    });
     expect(service.getStats().total).toBe(before + 1);
   });
 
@@ -122,7 +162,17 @@ describe('CustomerService', () => {
   });
 
   it('should emit updated customers via customers$', async () => {
-    service.add({ name: 'X', email: 'x@x.com', phone: '000', company: 'X', plan: 'starter', status: 'active', tags: [], contractValue: 0, ownerId: 'u1' });
+    service.add({
+      name: 'X',
+      email: 'x@x.com',
+      phone: '000',
+      company: 'X',
+      plan: 'starter',
+      status: 'active',
+      tags: [],
+      contractValue: 0,
+      ownerId: 'u1',
+    });
     const customers = await firstValueFrom(service.customers$);
     expect(customers.length).toBe(31);
   });

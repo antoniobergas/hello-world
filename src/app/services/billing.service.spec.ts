@@ -69,12 +69,24 @@ describe('BillingService', () => {
 
   it('should addPaymentRecord increases payments count', () => {
     const before = service.payments.length;
-    service.addPaymentRecord({ accountId: 'ba1', amount: 100, date: new Date(), status: 'paid', invoiceId: 'invNew' });
+    service.addPaymentRecord({
+      accountId: 'ba1',
+      amount: 100,
+      date: new Date(),
+      status: 'paid',
+      invoiceId: 'invNew',
+    });
     expect(service.payments.length).toBe(before + 1);
   });
 
   it('should addPaymentRecord assigns UUID', () => {
-    const record = service.addPaymentRecord({ accountId: 'ba1', amount: 100, date: new Date(), status: 'paid', invoiceId: 'invNew' });
+    const record = service.addPaymentRecord({
+      accountId: 'ba1',
+      amount: 100,
+      date: new Date(),
+      status: 'paid',
+      invoiceId: 'invNew',
+    });
     expect(record.id).toBeTruthy();
   });
 

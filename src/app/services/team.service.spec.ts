@@ -18,17 +18,38 @@ describe('TeamService', () => {
   });
 
   it('should add a new team', () => {
-    service.add({ name: 'QA', description: 'Quality assurance', department: 'engineering', memberIds: [], leadId: 'u1', active: true });
+    service.add({
+      name: 'QA',
+      description: 'Quality assurance',
+      department: 'engineering',
+      memberIds: [],
+      leadId: 'u1',
+      active: true,
+    });
     expect(service.teams.length).toBe(11);
   });
 
   it('should assign a UUID on add', () => {
-    const t = service.add({ name: 'QA', description: '', department: 'engineering', memberIds: [], leadId: 'u1', active: true });
+    const t = service.add({
+      name: 'QA',
+      description: '',
+      department: 'engineering',
+      memberIds: [],
+      leadId: 'u1',
+      active: true,
+    });
     expect(t.id).toBeTruthy();
   });
 
   it('should assign createdAt on add', () => {
-    const t = service.add({ name: 'QA', description: '', department: 'engineering', memberIds: [], leadId: 'u1', active: true });
+    const t = service.add({
+      name: 'QA',
+      description: '',
+      department: 'engineering',
+      memberIds: [],
+      leadId: 'u1',
+      active: true,
+    });
     expect(t.createdAt).toBeInstanceOf(Date);
   });
 

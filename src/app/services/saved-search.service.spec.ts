@@ -21,7 +21,14 @@ describe('SavedSearchService', () => {
   });
 
   it('should save a new search with UUID and defaults', () => {
-    const s = service.save({ name: 'Test', userId: 'u1', entity: 'tickets', filters: {}, sortBy: 'id', sortDir: 'asc' });
+    const s = service.save({
+      name: 'Test',
+      userId: 'u1',
+      entity: 'tickets',
+      filters: {},
+      sortBy: 'id',
+      sortDir: 'asc',
+    });
     expect(s.id).toBeTruthy();
     expect(typeof s.id).toBe('string');
     expect(s.useCount).toBe(0);
@@ -29,13 +36,20 @@ describe('SavedSearchService', () => {
   });
 
   it('should add saved search to list', () => {
-    service.save({ name: 'New', userId: 'u1', entity: 'items', filters: {}, sortBy: 'id', sortDir: 'asc' });
+    service.save({
+      name: 'New',
+      userId: 'u1',
+      entity: 'items',
+      filters: {},
+      sortBy: 'id',
+      sortDir: 'asc',
+    });
     expect(service.searches.length).toBe(11);
   });
 
   it('should delete a search', () => {
     service.delete('ss1');
-    expect(service.searches.find(s => s.id === 'ss1')).toBeUndefined();
+    expect(service.searches.find((s) => s.id === 'ss1')).toBeUndefined();
     expect(service.searches.length).toBe(9);
   });
 
@@ -46,12 +60,12 @@ describe('SavedSearchService', () => {
 
   it('should execute increments useCount', () => {
     service.execute('ss1');
-    expect(service.searches.find(s => s.id === 'ss1')?.useCount).toBe(26);
+    expect(service.searches.find((s) => s.id === 'ss1')?.useCount).toBe(26);
   });
 
   it('should execute sets lastUsedAt', () => {
     service.execute('ss2');
-    expect(service.searches.find(s => s.id === 'ss2')?.lastUsedAt).toBeInstanceOf(Date);
+    expect(service.searches.find((s) => s.id === 'ss2')?.lastUsedAt).toBeInstanceOf(Date);
   });
 
   it('should execute returns undefined for unknown id', () => {
@@ -60,7 +74,7 @@ describe('SavedSearchService', () => {
 
   it('should getByUser u1', () => {
     const u1 = service.getByUser('u1');
-    expect(u1.every(s => s.userId === 'u1')).toBe(true);
+    expect(u1.every((s) => s.userId === 'u1')).toBe(true);
     expect(u1.length).toBeGreaterThan(0);
   });
 
@@ -70,7 +84,7 @@ describe('SavedSearchService', () => {
 
   it('should getByEntity tickets', () => {
     const tickets = service.getByEntity('tickets');
-    expect(tickets.every(s => s.entity === 'tickets')).toBe(true);
+    expect(tickets.every((s) => s.entity === 'tickets')).toBe(true);
     expect(tickets.length).toBeGreaterThan(0);
   });
 
@@ -87,27 +101,34 @@ describe('SavedSearchService', () => {
 
   it('should rename a search', () => {
     service.rename('ss1', 'Renamed');
-    expect(service.searches.find(s => s.id === 'ss1')?.name).toBe('Renamed');
+    expect(service.searches.find((s) => s.id === 'ss1')?.name).toBe('Renamed');
   });
 
   it('should rename does not affect other fields', () => {
     service.rename('ss1', 'X');
-    expect(service.searches.find(s => s.id === 'ss1')?.useCount).toBe(25);
+    expect(service.searches.find((s) => s.id === 'ss1')?.useCount).toBe(25);
   });
 
   it('should updateFilters', () => {
     service.updateFilters('ss2', { status: 'active' });
-    expect(service.searches.find(s => s.id === 'ss2')?.filters).toEqual({ status: 'active' });
+    expect(service.searches.find((s) => s.id === 'ss2')?.filters).toEqual({ status: 'active' });
   });
 
   it('should update observable after save', async () => {
-    service.save({ name: 'X', userId: 'u1', entity: 'invoices', filters: {}, sortBy: 'id', sortDir: 'desc' });
+    service.save({
+      name: 'X',
+      userId: 'u1',
+      entity: 'invoices',
+      filters: {},
+      sortBy: 'id',
+      sortDir: 'desc',
+    });
     const searches = await firstValueFrom(service.searches$);
     expect(searches.length).toBe(11);
   });
 
   it('should have ss1 in seed data', () => {
-    expect(service.searches.find(s => s.id === 'ss1')).toBeTruthy();
+    expect(service.searches.find((s) => s.id === 'ss1')).toBeTruthy();
   });
 
   it('should getMostUsed ss1 first (useCount 25)', () => {

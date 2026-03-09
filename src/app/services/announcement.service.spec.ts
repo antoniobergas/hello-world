@@ -18,13 +18,29 @@ describe('AnnouncementService', () => {
   });
 
   it('should create an announcement with UUID', () => {
-    const a = service.create({ title: 'Test', body: 'body', type: 'info', targetAudience: 'all', active: false, startAt: new Date(), createdBy: 'u1' });
+    const a = service.create({
+      title: 'Test',
+      body: 'body',
+      type: 'info',
+      targetAudience: 'all',
+      active: false,
+      startAt: new Date(),
+      createdBy: 'u1',
+    });
     expect(a.id).toBeTruthy();
   });
 
   it('should create adds to announcements list', () => {
     const before = service.getAll().length;
-    service.create({ title: 'Test', body: 'body', type: 'info', targetAudience: 'all', active: false, startAt: new Date(), createdBy: 'u1' });
+    service.create({
+      title: 'Test',
+      body: 'body',
+      type: 'info',
+      targetAudience: 'all',
+      active: false,
+      startAt: new Date(),
+      createdBy: 'u1',
+    });
     expect(service.getAll().length).toBe(before + 1);
   });
 
