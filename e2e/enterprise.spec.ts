@@ -140,7 +140,9 @@ test.describe('Enterprise Admin Page', () => {
   });
 
   test('config section shows API URL', async ({ page }) => {
-    await expect(page.locator('.config-value')).toContainText('localhost');
+    await expect(page.locator('.config-value').filter({ hasText: 'localhost' })).toContainText(
+      'localhost',
+    );
   });
 });
 
