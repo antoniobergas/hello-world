@@ -19,7 +19,9 @@ test.describe('Multi-step user journeys', () => {
     await expect(newItem).toHaveClass(/completed/);
   });
 
-  test('navigate through all main sections: dashboard -> items -> admin -> analytics -> approvals', async ({ page }) => {
+  test('navigate through all main sections: dashboard -> items -> admin -> analytics -> approvals', async ({
+    page,
+  }) => {
     await page.goto('/');
     await expect(page.locator('h1')).toContainText('Hello World');
 
@@ -73,7 +75,9 @@ test.describe('Multi-step user journeys', () => {
     await expect(page.locator('.item-row', { hasText: 'Persistent Item' })).toBeVisible();
   });
 
-  test('submit approval request, approve it, then verify history from navigation', async ({ page }) => {
+  test('submit approval request, approve it, then verify history from navigation', async ({
+    page,
+  }) => {
     await page.goto('/approvals');
     await page.locator('.submit-btn').click();
     const pendingSection = page.locator('[aria-label="Pending approvals"]');
@@ -97,7 +101,9 @@ test.describe('Multi-step user journeys', () => {
     await expect(page.locator('.metric-count')).toContainText('Total recorded: 2');
   });
 
-  test('full workflow: add notification, check preferences, view items, go back to dashboard', async ({ page }) => {
+  test('full workflow: add notification, check preferences, view items, go back to dashboard', async ({
+    page,
+  }) => {
     // Add a notification
     await page.goto('/notifications');
     await page.locator('.demo-btn.info').click();
