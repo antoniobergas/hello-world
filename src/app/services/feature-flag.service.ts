@@ -127,7 +127,10 @@ export class FeatureFlagService {
 
   addFlag(flag: Omit<FeatureFlag, 'createdAt' | 'updatedAt'>): void {
     const now = new Date();
-    this.flagsSubject.next([...this.flagsSubject.value, { ...flag, createdAt: now, updatedAt: now }]);
+    this.flagsSubject.next([
+      ...this.flagsSubject.value,
+      { ...flag, createdAt: now, updatedAt: now },
+    ]);
   }
 
   getFlagsByTag(tag: string): FeatureFlag[] {

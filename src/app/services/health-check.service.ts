@@ -32,9 +32,7 @@ export class HealthCheckService {
 
   readonly status$: Observable<HealthStatus> = this.report$.pipe(map((r) => r.status));
 
-  readonly isHealthy$: Observable<boolean> = this.status$.pipe(
-    map((s) => s === 'healthy'),
-  );
+  readonly isHealthy$: Observable<boolean> = this.status$.pipe(map((s) => s === 'healthy'));
 
   get report(): HealthReport {
     return this.reportSubject.value;
@@ -47,15 +45,15 @@ export class HealthCheckService {
   }
 
   private buildReport(): HealthReport {
-    const indicators = [
-      this.checkStorage(),
-      this.checkMemory(),
-      this.checkApplication(),
-    ];
+    const indicators = [this.checkStorage(), this.checkMemory(), this.checkApplication()];
 
     const hasUnhealthy = indicators.some((i) => i.status === 'unhealthy');
     const hasDegraded = indicators.some((i) => i.status === 'degraded');
-    const overallStatus: HealthStatus = hasUnhealthy ? 'unhealthy' : hasDegraded ? 'degraded' : 'healthy';
+    const overallStatus: HealthStatus = hasUnhealthy
+      ? 'unhealthy'
+      : hasDegraded
+        ? 'degraded'
+        : 'healthy';
 
     return {
       status: overallStatus,

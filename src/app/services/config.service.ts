@@ -40,9 +40,7 @@ export class ConfigService {
 
   readonly config$: Observable<AppConfig> = this.configSubject.asObservable();
 
-  readonly environment$: Observable<Environment> = this.config$.pipe(
-    map((c) => c.environment),
-  );
+  readonly environment$: Observable<Environment> = this.config$.pipe(map((c) => c.environment));
 
   readonly isProduction$: Observable<boolean> = this.environment$.pipe(
     map((env) => env === 'production'),

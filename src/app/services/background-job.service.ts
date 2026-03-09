@@ -37,11 +37,7 @@ export class BackgroundJobService {
     return this.jobsSubject.value;
   }
 
-  enqueue(
-    type: JobType,
-    name: string,
-    metadata: Record<string, unknown> = {},
-  ): BackgroundJob {
+  enqueue(type: JobType, name: string, metadata: Record<string, unknown> = {}): BackgroundJob {
     const job: BackgroundJob = {
       id: crypto.randomUUID(),
       type,
@@ -100,9 +96,7 @@ export class BackgroundJobService {
   }
 
   private updateJob(jobId: string, changes: Partial<BackgroundJob>): void {
-    const updated = this.jobsSubject.value.map((j) =>
-      j.id === jobId ? { ...j, ...changes } : j,
-    );
+    const updated = this.jobsSubject.value.map((j) => (j.id === jobId ? { ...j, ...changes } : j));
     this.jobsSubject.next(updated);
   }
 

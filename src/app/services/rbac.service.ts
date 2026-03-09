@@ -3,7 +3,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export type Role = 'admin' | 'editor' | 'viewer';
-export type Permission = 'items:read' | 'items:write' | 'items:delete' | 'admin:access' | 'audit:read' | 'flags:write';
+export type Permission =
+  | 'items:read'
+  | 'items:write'
+  | 'items:delete'
+  | 'admin:access'
+  | 'audit:read'
+  | 'flags:write';
 
 const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
   admin: ['items:read', 'items:write', 'items:delete', 'admin:access', 'audit:read', 'flags:write'],

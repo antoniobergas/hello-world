@@ -62,7 +62,7 @@ import { ConfigService } from '../../services/config.service';
       <div class="admin-section" aria-label="Health check section">
         <h3>System Health</h3>
         <div class="health-status" [ngClass]="'health-' + (health.status$ | async)">
-          Overall: {{ (health.status$ | async) | uppercase }}
+          Overall: {{ health.status$ | async | uppercase }}
         </div>
         <button class="refresh-btn" (click)="health.check()">Refresh Health</button>
         <ul class="indicator-list">
@@ -133,7 +133,9 @@ import { ConfigService } from '../../services/config.service';
         </div>
         <div class="config-item">
           <span class="config-key">Debug Mode</span>
-          <span class="config-value">{{ config.get('enableDebugMode') ? 'Enabled' : 'Disabled' }}</span>
+          <span class="config-value">{{
+            config.get('enableDebugMode') ? 'Enabled' : 'Disabled'
+          }}</span>
         </div>
       </div>
     </section>
@@ -169,45 +171,194 @@ import { ConfigService } from '../../services/config.service';
         gap: 0.5rem;
         margin-bottom: 0.75rem;
       }
-      .role-value { font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 4px; background: #f1f5f9; }
-      .role-admin { color: #dc2626; }
-      .role-editor { color: #d97706; }
-      .role-viewer { color: #2563eb; }
-      .role-buttons { display: flex; gap: 0.5rem; }
-      .role-btn { padding: 0.4rem 0.8rem; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; background: white; }
-      .role-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
-      .flag-list, .audit-list, .job-list, .indicator-list { list-style: none; padding: 0; margin: 0; }
-      .flag-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; }
-      .flag-name { font-weight: 600; min-width: 140px; }
-      .flag-desc { color: #64748b; font-size: 0.875rem; flex: 1; }
-      .flag-toggle { padding: 0.25rem 0.75rem; border-radius: 20px; border: 1px solid #cbd5e1; cursor: pointer; background: #fee2e2; color: #dc2626; font-weight: 600; }
-      .flag-toggle.enabled { background: #dcfce7; color: #16a34a; }
-      .health-status { font-weight: 700; padding: 0.5rem 1rem; border-radius: 4px; display: inline-block; margin-bottom: 0.75rem; }
-      .health-healthy { background: #dcfce7; color: #16a34a; }
-      .health-degraded { background: #fef9c3; color: #ca8a04; }
-      .health-unhealthy { background: #fee2e2; color: #dc2626; }
-      .indicator-item { display: flex; gap: 1rem; padding: 0.4rem 0; border-bottom: 1px solid #f1f5f9; }
-      .indicator-name { font-weight: 600; min-width: 100px; }
-      .indicator-healthy { color: #16a34a; }
-      .indicator-degraded { color: #ca8a04; }
-      .indicator-unhealthy { color: #dc2626; }
-      .refresh-btn, .run-job-btn, .clear-jobs-btn, .clear-audit-btn { margin-bottom: 0.75rem; padding: 0.4rem 1rem; border-radius: 4px; border: 1px solid #cbd5e1; cursor: pointer; background: #f8fafc; margin-right: 0.5rem; }
-      .job-item { display: flex; gap: 1rem; padding: 0.4rem 0; border-bottom: 1px solid #f1f5f9; }
-      .job-name { font-weight: 600; flex: 1; }
-      .job-completed { color: #16a34a; }
-      .job-running { color: #2563eb; }
-      .job-failed { color: #dc2626; }
-      .job-pending { color: #64748b; }
-      .no-jobs, .no-entries { color: #94a3b8; padding: 0.5rem 0; font-style: italic; }
-      .audit-entry { display: flex; gap: 0.75rem; padding: 0.4rem 0; border-bottom: 1px solid #f1f5f9; font-size: 0.875rem; }
-      .audit-action { font-weight: 600; min-width: 80px; }
-      .audit-resource { color: #475569; min-width: 80px; }
-      .audit-user { color: #2563eb; min-width: 60px; }
-      .audit-time { color: #94a3b8; }
-      .config-item { display: flex; gap: 1rem; padding: 0.4rem 0; border-bottom: 1px solid #f1f5f9; }
-      .config-key { font-weight: 600; min-width: 160px; }
-      .config-value { color: #475569; }
-      .env-badge { font-weight: 600; padding: 0.1rem 0.5rem; border-radius: 4px; background: #e0f2fe; color: #0369a1; }
+      .role-value {
+        font-weight: 700;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        background: #f1f5f9;
+      }
+      .role-admin {
+        color: #dc2626;
+      }
+      .role-editor {
+        color: #d97706;
+      }
+      .role-viewer {
+        color: #2563eb;
+      }
+      .role-buttons {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .role-btn {
+        padding: 0.4rem 0.8rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+        cursor: pointer;
+        background: white;
+      }
+      .role-btn.active {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+      }
+      .flag-list,
+      .audit-list,
+      .job-list,
+      .indicator-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .flag-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      .flag-name {
+        font-weight: 600;
+        min-width: 140px;
+      }
+      .flag-desc {
+        color: #64748b;
+        font-size: 0.875rem;
+        flex: 1;
+      }
+      .flag-toggle {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        border: 1px solid #cbd5e1;
+        cursor: pointer;
+        background: #fee2e2;
+        color: #dc2626;
+        font-weight: 600;
+      }
+      .flag-toggle.enabled {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+      .health-status {
+        font-weight: 700;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 0.75rem;
+      }
+      .health-healthy {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+      .health-degraded {
+        background: #fef9c3;
+        color: #ca8a04;
+      }
+      .health-unhealthy {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      .indicator-item {
+        display: flex;
+        gap: 1rem;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      .indicator-name {
+        font-weight: 600;
+        min-width: 100px;
+      }
+      .indicator-healthy {
+        color: #16a34a;
+      }
+      .indicator-degraded {
+        color: #ca8a04;
+      }
+      .indicator-unhealthy {
+        color: #dc2626;
+      }
+      .refresh-btn,
+      .run-job-btn,
+      .clear-jobs-btn,
+      .clear-audit-btn {
+        margin-bottom: 0.75rem;
+        padding: 0.4rem 1rem;
+        border-radius: 4px;
+        border: 1px solid #cbd5e1;
+        cursor: pointer;
+        background: #f8fafc;
+        margin-right: 0.5rem;
+      }
+      .job-item {
+        display: flex;
+        gap: 1rem;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      .job-name {
+        font-weight: 600;
+        flex: 1;
+      }
+      .job-completed {
+        color: #16a34a;
+      }
+      .job-running {
+        color: #2563eb;
+      }
+      .job-failed {
+        color: #dc2626;
+      }
+      .job-pending {
+        color: #64748b;
+      }
+      .no-jobs,
+      .no-entries {
+        color: #94a3b8;
+        padding: 0.5rem 0;
+        font-style: italic;
+      }
+      .audit-entry {
+        display: flex;
+        gap: 0.75rem;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.875rem;
+      }
+      .audit-action {
+        font-weight: 600;
+        min-width: 80px;
+      }
+      .audit-resource {
+        color: #475569;
+        min-width: 80px;
+      }
+      .audit-user {
+        color: #2563eb;
+        min-width: 60px;
+      }
+      .audit-time {
+        color: #94a3b8;
+      }
+      .config-item {
+        display: flex;
+        gap: 1rem;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      .config-key {
+        font-weight: 600;
+        min-width: 160px;
+      }
+      .config-value {
+        color: #475569;
+      }
+      .env-badge {
+        font-weight: 600;
+        padding: 0.1rem 0.5rem;
+        border-radius: 4px;
+        background: #e0f2fe;
+        color: #0369a1;
+      }
     `,
   ],
 })

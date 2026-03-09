@@ -24,7 +24,12 @@ describe('EventBusService', () => {
 
   it('should not receive events of a different type', async () => {
     let received = false;
-    service.on<string>('event-a').pipe(take(1)).subscribe(() => { received = true; });
+    service
+      .on<string>('event-a')
+      .pipe(take(1))
+      .subscribe(() => {
+        received = true;
+      });
     service.emit('event-b', 'data');
     await new Promise((resolve) => setTimeout(resolve, 50));
     expect(received).toBe(false);
