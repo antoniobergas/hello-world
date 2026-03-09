@@ -1,10 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ItemsService } from '../../services/items.service';
 import { NotificationService } from '../../services/notification.service';
 import { SearchPipe } from '../../pipes/search.pipe';
 import { Item, Priority } from '../../models/item.model';
+
+type StatusFilter = 'all' | 'pending' | 'completed';
 
 @Component({
   selector: 'app-item-list',
@@ -24,6 +28,21 @@ import { Item, Priority } from '../../models/item.model';
         </button>
       </div>
 
+      <div class="filter-tabs">
+        <button [class.active]="statusFilter === 'all'" (click)="setStatusFilter('all')">
+          All
+        </button>
+        <button [class.active]="statusFilter === 'pending'" (click)="setStatusFilter('pending')">
+          Pending
+        </button>
+        <button
+          [class.active]="statusFilter === 'completed'"
+          (click)="setStatusFilter('completed')"
+        >
+          Completed
+        </button>
+      </div>
+
       @if (showForm) {
         <form class="item-form" (ngSubmit)="submitItem()">
           <input [(ngModel)]="newTitle" name="title" placeholder="Title" required />
@@ -39,14 +58,10 @@ import { Item, Priority } from '../../models/item.model';
       }
 
       <ul class="items">
-        @for (item of (items$ | async) | search : searchQuery; track item.id) {
+        @for (item of filteredItems$ | async | search: searchQuery; track item.id) {
           <li [ngClass]="{ completed: item.completed }" class="item-row">
             <label class="item-check">
-              <input
-                type="checkbox"
-                [checked]="item.completed"
-                (change)="toggle(item)"
-              />
+              <input type="checkbox" [checked]="item.completed" (change)="toggle(item)" />
               <span class="item-title">{{ item.title }}</span>
             </label>
             <span class="item-meta">
@@ -54,9 +69,7 @@ import { Item, Priority } from '../../models/item.model';
               <span class="item-category">{{ item.category }}</span>
               <span class="item-date">{{ itemsService.getFormattedDate(item) }}</span>
             </span>
-            <button class="remove-btn" (click)="remove(item)" aria-label="Remove item">
-              ✕
-            </button>
+            <button class="remove-btn" (click)="remove(item)" aria-label="Remove item">✕</button>
           </li>
         } @empty {
           <li class="empty">No items found.</li>
@@ -94,6 +107,25 @@ import { Item, Priority } from '../../models/item.model';
         border-radius: 6px;
         cursor: pointer;
         font-weight: 500;
+      }
+      .filter-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .filter-tabs button {
+        padding: 0.25rem 0.75rem;
+        border: 1px solid #cbd5e1;
+        background: transparent;
+        border-radius: 9999px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        color: #64748b;
+      }
+      .filter-tabs button.active {
+        background: #1e293b;
+        border-color: #1e293b;
+        color: white;
       }
       .item-form {
         display: flex;
@@ -201,7 +233,20 @@ export class ItemListComponent {
   itemsService = inject(ItemsService);
   private notificationService = inject(NotificationService);
 
-  readonly items$ = this.itemsService.items$;
+  private statusFilterSubject = new BehaviorSubject<StatusFilter>('all');
+  statusFilter: StatusFilter = 'all';
+
+  readonly filteredItems$ = combineLatest([
+    this.itemsService.items$,
+    this.statusFilterSubject,
+  ]).pipe(
+    map(([items, filter]) => {
+      if (filter === 'pending') return items.filter((i) => !i.completed);
+      if (filter === 'completed') return items.filter((i) => i.completed);
+      return items;
+    }),
+  );
+
   searchQuery = '';
   showForm = false;
   newTitle = '';
@@ -209,11 +254,14 @@ export class ItemListComponent {
   newCategory = 'general';
   newPriority: Priority = 'medium';
 
+  setStatusFilter(filter: StatusFilter): void {
+    this.statusFilter = filter;
+    this.statusFilterSubject.next(filter);
+  }
+
   toggle(item: Item): void {
     this.itemsService.toggle(item.id);
-    const msg = item.completed
-      ? `"${item.title}" marked as pending`
-      : `"${item.title}" completed`;
+    const msg = item.completed ? `"${item.title}" marked as pending` : `"${item.title}" completed`;
     this.notificationService.show(msg, item.completed ? 'info' : 'success');
   }
 

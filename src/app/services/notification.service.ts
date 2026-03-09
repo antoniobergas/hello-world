@@ -25,9 +25,7 @@ export class NotificationService {
   }
 
   dismiss(id: string): void {
-    this.notificationsSubject.next(
-      this.notificationsSubject.value.filter((n) => n.id !== id),
-    );
+    this.notificationsSubject.next(this.notificationsSubject.value.filter((n) => n.id !== id));
   }
 
   get current(): Notification[] {

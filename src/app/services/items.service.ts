@@ -82,6 +82,13 @@ export class ItemsService {
     this.itemsSubject.next(this.itemsSubject.value.filter((item) => item.id !== id));
   }
 
+  update(id: string, changes: Partial<Omit<Item, 'id' | 'createdAt'>>): void {
+    const updated = this.itemsSubject.value.map((item) =>
+      item.id === id ? { ...item, ...changes } : item,
+    );
+    this.itemsSubject.next(updated);
+  }
+
   groupedByCategory(): Record<string, Item[]> {
     return groupBy(this.itemsSubject.value, 'category');
   }

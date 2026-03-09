@@ -48,4 +48,26 @@ describe('ItemsService', () => {
     expect(grouped['design']).toHaveLength(1);
     expect(grouped['development']).toHaveLength(1);
   });
+
+  it('should update an item', () => {
+    const firstId = service.items[0].id;
+    service.update(firstId, { title: 'Updated Title', priority: 'low' });
+    const updated = service.items.find((i) => i.id === firstId)!;
+    expect(updated.title).toBe('Updated Title');
+    expect(updated.priority).toBe('low');
+  });
+
+  it('should not modify other items when updating', () => {
+    const firstId = service.items[0].id;
+    service.update(firstId, { title: 'Changed' });
+    expect(service.items.length).toBe(4);
+    expect(service.items[1].title).not.toBe('Changed');
+  });
+
+  it('should preserve createdAt when updating', () => {
+    const item = service.items[0];
+    const originalDate = item.createdAt;
+    service.update(item.id, { title: 'New Title' });
+    expect(service.items[0].createdAt).toEqual(originalDate);
+  });
 });
