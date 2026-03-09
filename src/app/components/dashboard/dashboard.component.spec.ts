@@ -9,6 +9,11 @@ describe('DashboardComponent', () => {
       imports: [DashboardComponent],
       providers: [provideRouter(routes)],
     }).compileComponents();
+    localStorage.clear();
+  });
+
+  afterEach(() => {
+    localStorage.clear();
   });
 
   it('should create', () => {
@@ -23,11 +28,11 @@ describe('DashboardComponent', () => {
     expect(h1.textContent).toContain('Hello World');
   });
 
-  it('should display four stat cards', async () => {
+  it('should display five stat cards', async () => {
     const fixture = TestBed.createComponent(DashboardComponent);
     await fixture.whenStable();
     const cards = fixture.nativeElement.querySelectorAll('.stat-card');
-    expect(cards.length).toBe(4);
+    expect(cards.length).toBe(5);
   });
 
   it('should render the embedded counter component', async () => {
@@ -48,5 +53,21 @@ describe('DashboardComponent', () => {
     const link = fixture.nativeElement.querySelector('a.action-btn') as HTMLAnchorElement;
     expect(link).toBeTruthy();
     expect(link.textContent).toContain('Items');
+  });
+
+  it('should render the progress bar component', async () => {
+    const fixture = TestBed.createComponent(DashboardComponent);
+    await fixture.whenStable();
+    expect(fixture.nativeElement.querySelector('app-progress-bar')).toBeTruthy();
+  });
+
+  it('should show an Overdue stat card', async () => {
+    const fixture = TestBed.createComponent(DashboardComponent);
+    await fixture.whenStable();
+    const cards = fixture.nativeElement.querySelectorAll(
+      '.stat-card h3',
+    ) as NodeListOf<HTMLElement>;
+    const titles = Array.from(cards).map((c) => c.textContent?.trim().toLowerCase());
+    expect(titles.some((t) => t?.includes('overdue'))).toBe(true);
   });
 });

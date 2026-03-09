@@ -12,3 +12,12 @@ export function capitalize(str: string): string {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+export function isOverdue(dueDate: Date, completed = false): boolean {
+  if (completed) return false;
+  return dueDate < new Date();
+}
+
+export function formatDueDate(dueDate: Date): string {
+  return format(dueDate, 'MMM d, yyyy');
+}

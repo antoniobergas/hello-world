@@ -8,4 +8,6 @@ export interface Item {
   priority: Priority;
   createdAt: Date;
   completed: boolean;
+  dueDate?: Date;
+  tags?: string[];
 }

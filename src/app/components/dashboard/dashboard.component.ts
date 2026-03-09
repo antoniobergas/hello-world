@@ -3,12 +3,14 @@ import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CounterComponent } from '../counter/counter.component';
 import { GreetingComponent } from '../greeting/greeting.component';
+import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 import { ItemsService } from '../../services/items.service';
 import { CounterService } from '../../services/counter.service';
+import { StatsService } from '../../services/stats.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [AsyncPipe, RouterLink, CounterComponent, GreetingComponent],
+  imports: [AsyncPipe, RouterLink, CounterComponent, GreetingComponent, ProgressBarComponent],
   template: `
     <section class="dashboard">
       <h1>Hello World — AppBench Dashboard</h1>
@@ -28,9 +30,17 @@ import { CounterService } from '../../services/counter.service';
           <p class="stat-value">{{ pendingCount$ | async }}</p>
         </div>
         <div class="stat-card">
+          <h3>Overdue</h3>
+          <p class="stat-value overdue-val">{{ (overdueItems$ | async)?.length ?? 0 }}</p>
+        </div>
+        <div class="stat-card">
           <h3>Counter</h3>
           <p class="stat-value">{{ counter$ | async }}</p>
         </div>
+      </div>
+
+      <div class="progress-section">
+        <app-progress-bar [value]="(completionRate$ | async) ?? 0" label="Completion" />
       </div>
 
       <div class="quick-actions">
@@ -74,6 +84,12 @@ import { CounterService } from '../../services/counter.service';
         margin: 0;
         color: #1e293b;
       }
+      .overdue-val {
+        color: #dc2626;
+      }
+      .progress-section {
+        margin: 1rem 0 1.5rem;
+      }
       .quick-actions {
         margin: 1rem 0;
       }
@@ -95,9 +111,12 @@ import { CounterService } from '../../services/counter.service';
 export class DashboardComponent {
   private itemsService = inject(ItemsService);
   private counterService = inject(CounterService);
+  private statsService = inject(StatsService);
 
   readonly items$ = this.itemsService.items$;
   readonly completedCount$ = this.itemsService.completedCount$;
   readonly pendingCount$ = this.itemsService.pendingCount$;
+  readonly overdueItems$ = this.itemsService.overdueItems$;
+  readonly completionRate$ = this.statsService.completionRate$;
   readonly counter$ = this.counterService.count$;
 }

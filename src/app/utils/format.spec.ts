@@ -1,4 +1,4 @@
-import { formatDate, timeAgo, capitalize } from './format';
+import { isOverdue, formatDueDate, formatDate, timeAgo, capitalize } from './format';
 
 describe('capitalize', () => {
   it('should capitalize first letter and lowercase the rest', () => {
@@ -48,5 +48,36 @@ describe('timeAgo', () => {
 
   it('should produce "in" for a future date', () => {
     expect(timeAgo(new Date(Date.now() + 3_600_000))).toContain('in');
+  });
+});
+
+describe('isOverdue', () => {
+  const pastDate = new Date(Date.now() - 86_400_000); // yesterday
+  const futureDate = new Date(Date.now() + 86_400_000); // tomorrow
+
+  it('should return true for a past due date on an incomplete item', () => {
+    expect(isOverdue(pastDate, false)).toBe(true);
+  });
+
+  it('should return false when item is completed', () => {
+    expect(isOverdue(pastDate, true)).toBe(false);
+  });
+
+  it('should return false for a future due date', () => {
+    expect(isOverdue(futureDate, false)).toBe(false);
+  });
+
+  it('should default completed to false', () => {
+    expect(isOverdue(pastDate)).toBe(true);
+  });
+});
+
+describe('formatDueDate', () => {
+  it('should return a non-empty string', () => {
+    expect(formatDueDate(new Date('2025-06-15'))).toBeTruthy();
+  });
+
+  it('should include the year', () => {
+    expect(formatDueDate(new Date('2025-12-31'))).toContain('2025');
   });
 });
