@@ -19,6 +19,9 @@ import { ThemeService } from '../../services/theme.service';
         <li>
           <a routerLink="/items" routerLinkActive="active">Items</a>
         </li>
+        <li>
+          <a routerLink="/admin" routerLinkActive="active">Admin</a>
+        </li>
       </ul>
       <button class="theme-toggle" (click)="toggleTheme()" [attr.aria-label]="themeLabel">
         {{ themeService.isDark ? '☀️' : '🌙' }}

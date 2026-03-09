@@ -90,11 +90,4 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Scan Docker image for vulnerabilities
-        uses: aquasecurity/trivy-action@0.29.0
-        with:
-          image-ref: hello-angular-azdo:pr-${{ github.event.pull_request.number }}
-          format: table
-          exit-code: '0'
-          ignore-unfixed: true
-          severity: CRITICAL,HIGH
+

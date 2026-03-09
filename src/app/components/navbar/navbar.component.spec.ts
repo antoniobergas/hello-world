@@ -24,11 +24,11 @@ describe('NavbarComponent', () => {
     expect(brand.textContent).toContain('AppBench');
   });
 
-  it('should render two navigation links', async () => {
+  it('should render three navigation links', async () => {
     const fixture = TestBed.createComponent(NavbarComponent);
     await fixture.whenStable();
     const links = fixture.nativeElement.querySelectorAll('.nav-links a');
-    expect(links.length).toBe(2);
+    expect(links.length).toBe(3);
   });
 
   it('should render the theme toggle button', async () => {
