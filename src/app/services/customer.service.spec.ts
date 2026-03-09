@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { CustomerService } from './customer.service';
@@ -7,8 +6,7 @@ describe('CustomerService', () => {
   let service: CustomerService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [CustomerService] });
-    service = TestBed.inject(CustomerService);
+    service = new CustomerService();
   });
 
   it('should be created', () => {
@@ -29,6 +27,11 @@ describe('CustomerService', () => {
     const c = service.add({ name: 'New User', email: 'new@test.com', phone: '555-9999', company: 'TestCo', plan: 'starter', status: 'active', tags: [], contractValue: 1000, ownerId: 'u1' });
     expect(c.id).toBeTruthy();
     expect(typeof c.id).toBe('string');
+  });
+
+  it('should assign createdAt on add', () => {
+    const c = service.add({ name: 'New User', email: 'new@test.com', phone: '555-9999', company: 'TestCo', plan: 'starter', status: 'active', tags: [], contractValue: 1000, ownerId: 'u1' });
+    expect(c.createdAt).toBeInstanceOf(Date);
   });
 
   it('should update a customer', () => {
@@ -70,7 +73,7 @@ describe('CustomerService', () => {
     expect(churned.length).toBeGreaterThan(0);
   });
 
-  it('should search by name', () => {
+  it('should search by name (case-insensitive)', () => {
     const results = service.search('alice');
     expect(results.length).toBeGreaterThan(0);
     expect(results[0].name).toContain('Alice');

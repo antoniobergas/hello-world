@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { BillingService } from './billing.service';
@@ -7,8 +6,7 @@ describe('BillingService', () => {
   let service: BillingService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [BillingService] });
-    service = TestBed.inject(BillingService);
+    service = new BillingService();
   });
 
   it('should be created', () => {
@@ -38,7 +36,7 @@ describe('BillingService', () => {
     expect(service.getAccount('t2')?.plan).toBe('enterprise');
   });
 
-  it('should upgradePlan updates amount', () => {
+  it('should upgradePlan updates amount for monthly billing', () => {
     service.upgradePlan('t2', 'enterprise', 'monthly');
     expect(service.getAccount('t2')?.amount).toBe(499);
   });
@@ -54,7 +52,7 @@ describe('BillingService', () => {
     expect(service.getAccount('t3')?.status).toBe('active');
   });
 
-  it('should cancelSubscription', () => {
+  it('should cancelSubscription sets status to cancelled', () => {
     service.cancelSubscription('t2');
     expect(service.getAccount('t2')?.status).toBe('cancelled');
   });
@@ -69,7 +67,7 @@ describe('BillingService', () => {
     expect(service.getPaymentHistory('unknown')).toHaveLength(0);
   });
 
-  it('should addPaymentRecord', () => {
+  it('should addPaymentRecord increases payments count', () => {
     const before = service.payments.length;
     service.addPaymentRecord({ accountId: 'ba1', amount: 100, date: new Date(), status: 'paid', invoiceId: 'invNew' });
     expect(service.payments.length).toBe(before + 1);
@@ -80,7 +78,7 @@ describe('BillingService', () => {
     expect(record.id).toBeTruthy();
   });
 
-  it('should computeMRR includes only active accounts', () => {
+  it('should computeMRR is greater than 0 with active accounts', () => {
     const mrr = service.computeMRR();
     expect(mrr).toBeGreaterThan(0);
   });
@@ -89,9 +87,9 @@ describe('BillingService', () => {
     service.cancelSubscription('t1');
     service.cancelSubscription('t2');
     const mrr = service.computeMRR();
-    const expected = service.accounts.filter(a => a.status === 'active').reduce((sum, a) => {
-      return sum + (a.billingCycle === 'annual' ? a.amount / 12 : a.amount);
-    }, 0);
+    const expected = service.accounts
+      .filter((a) => a.status === 'active')
+      .reduce((sum, a) => sum + (a.billingCycle === 'annual' ? a.amount / 12 : a.amount), 0);
     expect(mrr).toBeCloseTo(expected, 1);
   });
 
@@ -106,21 +104,18 @@ describe('BillingService', () => {
   });
 
   it('should MRR be 0 when all accounts cancelled', () => {
-    service.cancelSubscription('t1');
-    service.cancelSubscription('t2');
-    service.cancelSubscription('t3');
-    service.cancelSubscription('t4');
-    service.cancelSubscription('t5');
+    ['t1', 't2', 't3', 't4', 't5'].forEach((t) => service.cancelSubscription(t));
     expect(service.computeMRR()).toBe(0);
   });
 
   it('should free plan account contributes 0 to MRR', () => {
-    // Cancel all non-free accounts, t4 is free
-    service.cancelSubscription('t1');
-    service.cancelSubscription('t2');
-    service.cancelSubscription('t3');
-    const mrr = service.computeMRR();
-    // only t4 (free, 0 amount) is active
-    expect(mrr).toBe(0);
+    // Cancel all non-free accounts; t4 is free
+    ['t1', 't2', 't3', 't5'].forEach((t) => service.cancelSubscription(t));
+    expect(service.computeMRR()).toBe(0);
+  });
+
+  it('should upgradePlan changes billingCycle', () => {
+    service.upgradePlan('t2', 'growth', 'annual');
+    expect(service.getAccount('t2')?.billingCycle).toBe('annual');
   });
 });

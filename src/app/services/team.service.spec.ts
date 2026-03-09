@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { TeamService } from './team.service';
@@ -7,8 +6,7 @@ describe('TeamService', () => {
   let service: TeamService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [TeamService] });
-    service = TestBed.inject(TeamService);
+    service = new TeamService();
   });
 
   it('should be created', () => {
@@ -27,6 +25,11 @@ describe('TeamService', () => {
   it('should assign a UUID on add', () => {
     const t = service.add({ name: 'QA', description: '', department: 'engineering', memberIds: [], leadId: 'u1', active: true });
     expect(t.id).toBeTruthy();
+  });
+
+  it('should assign createdAt on add', () => {
+    const t = service.add({ name: 'QA', description: '', department: 'engineering', memberIds: [], leadId: 'u1', active: true });
+    expect(t.createdAt).toBeInstanceOf(Date);
   });
 
   it('should update a team name', () => {
@@ -61,7 +64,7 @@ describe('TeamService', () => {
     expect(eng.length).toBeGreaterThan(0);
   });
 
-  it('should getByDepartment: sales', () => {
+  it('should getByDepartment: sales returns 2 teams', () => {
     const sales = service.getByDepartment('sales');
     expect(sales.length).toBe(2);
   });
@@ -107,14 +110,9 @@ describe('TeamService', () => {
     expect(service.teams.find((t) => t.id === 'team10')?.active).toBe(true);
   });
 
-  it('should getByDepartment: finance', () => {
+  it('should getByDepartment: finance returns 1 team', () => {
     const finance = service.getByDepartment('finance');
     expect(finance.length).toBe(1);
     expect(finance[0].id).toBe('team9');
-  });
-
-  it('should add team with createdAt date', () => {
-    const t = service.add({ name: 'QA', description: '', department: 'support', memberIds: [], leadId: 'u1', active: true });
-    expect(t.createdAt).toBeInstanceOf(Date);
   });
 });

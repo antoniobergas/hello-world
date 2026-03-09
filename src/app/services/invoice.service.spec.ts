@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { InvoiceService } from './invoice.service';
@@ -7,8 +6,7 @@ describe('InvoiceService', () => {
   let service: InvoiceService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [InvoiceService] });
-    service = TestBed.inject(InvoiceService);
+    service = new InvoiceService();
   });
 
   it('should be created', () => {
