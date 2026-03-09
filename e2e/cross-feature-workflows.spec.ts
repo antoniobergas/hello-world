@@ -4,36 +4,23 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Items and Dashboard cross-feature', () => {
   test('adding an item updates the dashboard Total Items count', async ({ page }) => {
-    await page.goto('/');
-    const before = await page
-      .locator('.stat-card')
-      .filter({ hasText: 'Total Items' })
-      .locator('.stat-value')
-      .textContent();
+    await page.goto('/items');
+    const itemCount = await page.locator('.item-row').count();
 
-    await page.locator('nav.navbar a', { hasText: 'Items' }).click();
     await page.locator('button', { hasText: '+ Add Item' }).click();
     await page.locator('input[name="title"]').fill('Cross-feature Item');
     await page.locator('button[type="submit"]').click();
 
     await page.locator('nav.navbar a', { hasText: 'Dashboard' }).click();
-    const after = await page
-      .locator('.stat-card')
-      .filter({ hasText: 'Total Items' })
-      .locator('.stat-value')
-      .textContent();
-    expect(Number(after)).toBeGreaterThan(Number(before));
+    await expect(
+      page.locator('.stat-card').filter({ hasText: 'Total Items' }).locator('.stat-value'),
+    ).toHaveText(String(itemCount + 1));
   });
 
   test('completing an item on items page increases dashboard completed count', async ({ page }) => {
-    await page.goto('/');
-    const completedBefore = await page
-      .locator('.stat-card')
-      .filter({ hasText: 'Completed' })
-      .locator('.stat-value')
-      .textContent();
+    await page.goto('/items');
+    const completedBefore = await page.locator('.item-row.completed').count();
 
-    await page.locator('nav.navbar a', { hasText: 'Items' }).click();
     const uncheckedCheckbox = page
       .locator('.item-row:not(.completed) .item-check input[type="checkbox"]')
       .first();
@@ -42,12 +29,9 @@ test.describe('Items and Dashboard cross-feature', () => {
     }
 
     await page.locator('nav.navbar a', { hasText: 'Dashboard' }).click();
-    const completedAfter = await page
-      .locator('.stat-card')
-      .filter({ hasText: 'Completed' })
-      .locator('.stat-value')
-      .textContent();
-    expect(Number(completedAfter)).toBeGreaterThanOrEqual(Number(completedBefore));
+    await expect(
+      page.locator('.stat-card').filter({ hasText: 'Completed' }).locator('.stat-value'),
+    ).toHaveText(String(completedBefore + 1));
   });
 
   test('removing an item decreases dashboard Total Items count', async ({ page }) => {

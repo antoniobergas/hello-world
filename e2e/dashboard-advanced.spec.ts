@@ -71,47 +71,29 @@ test.describe('Dashboard counter widget', () => {
   });
 
   test('clicking + increments counter display', async ({ page }) => {
-    const before = await page.locator('.count').textContent();
     await page.locator('button', { hasText: '+' }).click();
-    const after = await page.locator('.count').textContent();
-    expect(Number(after)).toBeGreaterThan(Number(before));
+    await expect(page.locator('.count')).toHaveText('1');
   });
 
   test('clicking - decrements counter display', async ({ page }) => {
-    // First increment so we can safely decrement
     await page.locator('button', { hasText: '+' }).click();
-    const before = await page.locator('.count').textContent();
+    await expect(page.locator('.count')).toHaveText('1');
     await page.locator('button', { hasText: '-' }).click();
-    const after = await page.locator('.count').textContent();
-    expect(Number(after)).toBeLessThan(Number(before));
+    await expect(page.locator('.count')).toHaveText('0');
   });
 
   test('clicking + multiple times increments the counter', async ({ page }) => {
-    const before = Number((await page.locator('.count').textContent()) ?? '0');
-    for (let i = 0; i < 3; i++) {
+    for (let i = 1; i <= 3; i++) {
       await page.locator('button', { hasText: '+' }).click();
+      await expect(page.locator('.count')).toHaveText(String(i));
     }
-    const after = await page.locator('.count').textContent();
-    expect(Number(after)).toBe(before + 3);
   });
 
   test('counter stat card reflects click count', async ({ page }) => {
-    const before = Number(
-      await page
-        .locator('.stat-card')
-        .filter({ hasText: 'Counter' })
-        .locator('.stat-value')
-        .textContent(),
-    );
     await page.locator('button', { hasText: '+' }).click();
-    const after = Number(
-      await page
-        .locator('.stat-card')
-        .filter({ hasText: 'Counter' })
-        .locator('.stat-value')
-        .textContent(),
-    );
-    expect(after).toBeGreaterThan(before);
+    await expect(
+      page.locator('.stat-card').filter({ hasText: 'Counter' }).locator('.stat-value'),
+    ).toHaveText('1');
   });
 });
 
@@ -154,13 +136,13 @@ test.describe('Dashboard - Manage Items navigation', () => {
   }) => {
     await page.goto('/');
     await page.locator('button', { hasText: '+' }).click();
+    await expect(page.locator('.count')).toHaveText('1');
     await page.locator('button', { hasText: '+' }).click();
-    const before = await page.locator('.count').textContent();
+    await expect(page.locator('.count')).toHaveText('2');
 
     await page.locator('nav.navbar a', { hasText: 'Items' }).click();
     await page.locator('nav.navbar a', { hasText: 'Dashboard' }).click();
-    const after = await page.locator('.count').textContent();
-    expect(Number(after)).toBeGreaterThanOrEqual(Number(before));
+    await expect(page.locator('.count')).toHaveText('2');
   });
 
   test('Overdue stat value is a non-negative number', async ({ page }) => {
