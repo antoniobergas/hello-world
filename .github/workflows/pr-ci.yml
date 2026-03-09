@@ -27,27 +27,49 @@ jobs:
         run: npm ci
 
       - name: Check formatting
-        run: npx prettier --check "src/**/*.ts"
+        run: npx prettier --check "src/**/*.ts" "apps/**/*.ts"
 
-      - name: TypeScript type check
+      - name: TypeScript type check (appbench)
         run: npx tsc --noEmit -p tsconfig.app.json
+
+      - name: TypeScript type check (portal)
+        run: npx tsc --noEmit -p apps/portal/tsconfig.app.json
+
+      - name: TypeScript type check (reporting)
+        run: npx tsc --noEmit -p apps/reporting/tsconfig.app.json
 
       - name: Dependency security audit
         run: npm audit --audit-level=high
         continue-on-error: true
 
-      - name: Build (production)
+      # ── Builds ──────────────────────────────────────────────────────────────
+
+      - name: Build appbench (production)
         run: npm run build -- --configuration production
 
-      - name: Upload production build
+      - name: Build portal (production)
+        run: npm run build:portal -- --configuration production
+
+      - name: Build reporting (production)
+        run: npm run build:reporting -- --configuration production
+
+      - name: Upload production builds
         uses: actions/upload-artifact@v4
         with:
-          name: production-build
+          name: production-builds
           path: dist/
           retention-days: 3
 
-      - name: Run unit tests with coverage
+      # ── Unit Tests ───────────────────────────────────────────────────────────
+
+      - name: Run appbench unit tests with coverage
         run: npm run test:coverage
+
+      - name: Run portal unit tests
+        run: npm run test:portal
+
+      - name: Run reporting unit tests
+        run: npm run test:reporting
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
@@ -60,19 +82,23 @@ jobs:
       - name: Run integration tests
         run: npx ng test --include="**/*.integration.spec.ts"
 
+      # ── E2E Tests ────────────────────────────────────────────────────────────
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Run E2E tests
+      - name: Run appbench E2E tests
         run: npm run test:e2e
 
-      - name: Upload Playwright report
+      - name: Upload appbench Playwright report
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: playwright-report
+          name: playwright-report-appbench
           path: playwright-report/
           retention-days: 7
+
+      # ── Static Analysis ──────────────────────────────────────────────────────
 
       - name: SonarQube analysis
         uses: SonarSource/sonarcloud-github-action@v3
@@ -80,10 +106,12 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+      # ── Docker ───────────────────────────────────────────────────────────────
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
+      - name: Build Docker image (appbench)
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -92,4 +120,3 @@ jobs:
           tags: hello-angular-azdo:pr-${{ github.event.pull_request.number }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-

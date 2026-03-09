@@ -1,0 +1,61 @@
+{
+  "$schema": "./node_modules/nx/schemas/project-schema.json",
+  "name": "appbench",
+  "projectType": "application",
+  "root": ".",
+  "sourceRoot": "src",
+  "tags": ["app:appbench", "type:application"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "options": {
+        "outputPath": "dist/appbench",
+        "index": "src/index.html",
+        "browser": "src/main.ts",
+        "tsConfig": "tsconfig.app.json",
+        "assets": ["src/favicon.ico", "public"],
+        "styles": ["src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
+            { "type": "anyComponentStyle", "maximumWarning": "4kB", "maximumError": "8kB" }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "configurations": {
+        "production": { "buildTarget": "appbench:build:production" },
+        "development": { "buildTarget": "appbench:build:development" }
+      },
+      "defaultConfiguration": "development"
+    },
+    "test": {
+      "executor": "@angular/build:unit-test"
+    },
+    "test:e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "playwright test",
+        "cwd": "."
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prettier --check \"src/**/*.ts\""
+      }
+    }
+  }
+}
