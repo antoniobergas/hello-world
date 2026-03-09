@@ -169,11 +169,11 @@ describe('ItemListComponent', () => {
 
   it('should toggle sort direction', () => {
     const fixture = TestBed.createComponent(ItemListComponent);
-    fixture.componentInstance.sortDirection = 'asc';
+    fixture.componentInstance.sortDirection.set('asc');
     fixture.componentInstance.toggleSortDirection();
-    expect(fixture.componentInstance.sortDirection).toBe('desc');
+    expect(fixture.componentInstance.sortDirection()).toBe('desc');
     fixture.componentInstance.toggleSortDirection();
-    expect(fixture.componentInstance.sortDirection).toBe('asc');
+    expect(fixture.componentInstance.sortDirection()).toBe('asc');
   });
 
   it('should start inline edit mode', () => {

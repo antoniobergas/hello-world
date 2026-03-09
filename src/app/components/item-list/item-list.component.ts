@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -79,7 +79,7 @@ type StatusFilter = 'all' | 'pending' | 'completed';
         <!-- Sort controls -->
         <select
           class="filter-select"
-          [(ngModel)]="sortField"
+          [ngModel]="sortField()"
           (ngModelChange)="setSortField($event)"
           aria-label="Sort by"
         >
@@ -91,9 +91,9 @@ type StatusFilter = 'all' | 'pending' | 'completed';
         <button
           class="sort-dir-btn"
           (click)="toggleSortDirection()"
-          [title]="sortDirection === 'asc' ? 'Ascending' : 'Descending'"
+          [title]="sortDirection() === 'asc' ? 'Ascending' : 'Descending'"
         >
-          {{ sortDirection === 'asc' ? '↑' : '↓' }}
+          {{ sortDirection() === 'asc' ? '↑' : '↓' }}
         </button>
       </div>
 
@@ -127,7 +127,7 @@ type StatusFilter = 'all' | 'pending' | 'completed';
       <!-- Items list -->
       <ul class="items">
         @for (
-          item of filteredItems$ | async | sortItems: sortField : sortDirection;
+          item of filteredItems$ | async | sortItems: sortField() : sortDirection();
           track item.id
         ) {
           <!-- Edit mode -->
@@ -478,26 +478,35 @@ export class ItemListComponent {
   priorityFilter = '';
   private priorityFilterSubject = new BehaviorSubject<string>('');
 
-  // --- sort state ---
-  sortField: SortField = 'createdAt';
-  sortDirection: SortDirection = 'asc';
+  // --- sort state (signals — required for zoneless change detection) ---
+  sortField = signal<SortField>('createdAt');
+  sortDirection = signal<SortDirection>('asc');
 
-  // --- search ---
-  searchQuery = '';
+  // --- search (reactive BehaviorSubject in combineLatest) ---
+  private searchQuerySubject = new BehaviorSubject<string>('');
+  private _searchQuery = '';
+  get searchQuery(): string {
+    return this._searchQuery;
+  }
+  set searchQuery(value: string) {
+    this._searchQuery = value;
+    this.searchQuerySubject.next(value);
+  }
 
   readonly filteredItems$ = combineLatest([
     this.itemsService.items$,
     this.statusFilterSubject,
     this.categoryFilterSubject,
     this.priorityFilterSubject,
+    this.searchQuerySubject,
   ]).pipe(
-    map(([items, status, category, priority]) => {
+    map(([items, status, category, priority, query]) => {
       let result = items;
       if (status === 'pending') result = result.filter((i) => !i.completed);
       else if (status === 'completed') result = result.filter((i) => i.completed);
       if (category) result = result.filter((i) => i.category === category);
       if (priority) result = result.filter((i) => i.priority === priority);
-      if (this.searchQuery.trim()) result = this.fuzzySearch.search(result, this.searchQuery);
+      if (query.trim()) result = this.fuzzySearch.search(result, query);
       return result;
     }),
   );
@@ -538,11 +547,11 @@ export class ItemListComponent {
   }
 
   setSortField(field: SortField): void {
-    this.sortField = field;
+    this.sortField.set(field);
   }
 
   toggleSortDirection(): void {
-    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    this.sortDirection.update((d) => (d === 'asc' ? 'desc' : 'asc'));
   }
 
   toggleSelect(id: string): void {

@@ -16,10 +16,10 @@ test.describe('Item sorting', () => {
 
   test('clicking sort direction button toggles between ↑ and ↓', async ({ page }) => {
     const btn = page.locator('.sort-dir-btn');
-    const initial = await btn.textContent();
+    // starts as ascending; after click should show descending arrow
+    await expect(btn).toHaveText('↑');
     await btn.click();
-    const toggled = await btn.textContent();
-    expect(toggled?.trim()).not.toBe(initial?.trim());
+    await expect(btn).toHaveText('↓');
   });
 
   test('items list is rendered after changing sort field', async ({ page }) => {
