@@ -117,7 +117,11 @@ type StatusFilter = 'all' | 'pending' | 'completed';
             <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
-          <input [(ngModel)]="newCategory" name="category" placeholder="Category" />
+          <select [(ngModel)]="newCategory" name="category">
+            @for (cat of predefinedCategories; track cat) {
+              <option [value]="cat">{{ cat }}</option>
+            }
+          </select>
           <input [(ngModel)]="newDueDate" name="dueDate" type="date" placeholder="Due date" />
           <input [(ngModel)]="newTags" name="tags" placeholder="Tags (comma-separated)" />
           <button type="submit">Add</button>
@@ -519,6 +523,8 @@ export class ItemListComponent {
   newPriority: Priority = 'medium';
   newDueDate = '';
   newTags = '';
+
+  readonly predefinedCategories = ['design', 'development', 'general', 'performance', 'quality'];
 
   // --- edit state ---
   editingId: string | null = null;
