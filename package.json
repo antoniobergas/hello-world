@@ -20,7 +20,7 @@
     "test:e2e": "playwright test",
     "test:e2e:portal": "playwright test --config apps/portal/playwright.config.ts",
     "test:e2e:reporting": "playwright test --config apps/reporting/playwright.config.ts",
-    "test:integration": "ng test --include=\"**/*.integration.spec.ts\"",
+    "test:integration": "ng test hello-angular-azdo --include=\"**/*.integration.spec.ts\"",
     "build:prod": "ng build --configuration production",
     "build:prod:all": "nx run-many --target=build --configuration=production --all",
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
