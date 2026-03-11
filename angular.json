@@ -450,7 +450,8 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "apps/analytics/tsconfig.spec.json"
+            "tsConfig": "apps/analytics/tsconfig.spec.json",
+            "runner": "vitest"
           }
         }
       }

@@ -126,7 +126,4 @@ export class KpiDashboardComponent implements OnInit {
     this.metricsService.refreshMetric(id);
   }
 
-  titlecase(val: string): string {
-    return val.charAt(0).toUpperCase() + val.slice(1);
-  }
 }
