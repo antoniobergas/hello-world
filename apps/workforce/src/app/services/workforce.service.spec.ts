@@ -55,7 +55,9 @@ describe('WorkforceService', () => {
       status: 'pending',
       reason: 'Unwell',
     });
-    const pending = service.leaveRequests.find((r) => r.status === 'pending' && r.employeeId === 'e2');
+    const pending = service.leaveRequests.find(
+      (r) => r.status === 'pending' && r.employeeId === 'e2',
+    );
     service.approveLeave(pending!.id, 'Manager A');
     const approved = service.leaveRequests.find((r) => r.id === pending!.id);
     expect(approved!.status).toBe('approved');
@@ -72,7 +74,9 @@ describe('WorkforceService', () => {
       status: 'pending',
       reason: 'Personal',
     });
-    const pending = service.leaveRequests.find((r) => r.status === 'pending' && r.employeeId === 'e3');
+    const pending = service.leaveRequests.find(
+      (r) => r.status === 'pending' && r.employeeId === 'e3',
+    );
     service.rejectLeave(pending!.id, 'Manager B');
     const rejected = service.leaveRequests.find((r) => r.id === pending!.id);
     expect(rejected!.status).toBe('rejected');

@@ -43,8 +43,12 @@ export class ApprovalService {
       tags: ['software', 'it'],
       comments: [
         {
-          id: 'c1', requestId: 'ar2', author: 'IT Manager',
-          body: 'Approved — budget available.', createdAt: new Date('2025-06-22'), isDecision: true,
+          id: 'c1',
+          requestId: 'ar2',
+          author: 'IT Manager',
+          body: 'Approved — budget available.',
+          createdAt: new Date('2025-06-22'),
+          isDecision: true,
         },
       ],
     },
@@ -92,8 +96,12 @@ export class ApprovalService {
       tags: ['access', 'security'],
       comments: [
         {
-          id: 'c2', requestId: 'ar5', author: 'Security Team',
-          body: 'Rejected — use staging environment instead.', createdAt: new Date('2025-07-04'), isDecision: true,
+          id: 'c2',
+          requestId: 'ar5',
+          author: 'Security Team',
+          body: 'Rejected — use staging environment instead.',
+          createdAt: new Date('2025-07-04'),
+          isDecision: true,
         },
       ],
     },
@@ -115,29 +123,53 @@ export class ApprovalService {
   ]);
 
   private readonly _workflowSteps$ = new BehaviorSubject<WorkflowStep[]>([
-    { id: 'ws1', requestId: 'ar1', stepNumber: 1, stepName: 'Manager Review', assignedTo: 'Bob Martinez', status: 'approved', completedAt: new Date('2025-07-02') },
-    { id: 'ws2', requestId: 'ar1', stepNumber: 2, stepName: 'Finance Approval', assignedTo: 'Finance Manager', status: 'active' },
-    { id: 'ws3', requestId: 'ar3', stepNumber: 1, stepName: 'HR Review', assignedTo: 'HR Manager', status: 'active' },
+    {
+      id: 'ws1',
+      requestId: 'ar1',
+      stepNumber: 1,
+      stepName: 'Manager Review',
+      assignedTo: 'Bob Martinez',
+      status: 'approved',
+      completedAt: new Date('2025-07-02'),
+    },
+    {
+      id: 'ws2',
+      requestId: 'ar1',
+      stepNumber: 2,
+      stepName: 'Finance Approval',
+      assignedTo: 'Finance Manager',
+      status: 'active',
+    },
+    {
+      id: 'ws3',
+      requestId: 'ar3',
+      stepNumber: 1,
+      stepName: 'HR Review',
+      assignedTo: 'HR Manager',
+      status: 'active',
+    },
   ]);
 
   private nextId = 100;
 
   readonly requests$: Observable<ApprovalRequest[]> = this._requests$.asObservable();
   readonly pendingRequests$: Observable<ApprovalRequest[]> = this._requests$.pipe(
-    map((r) => r.filter((req) => req.status === 'pending'))
+    map((r) => r.filter((req) => req.status === 'pending')),
   );
   readonly approvedRequests$: Observable<ApprovalRequest[]> = this._requests$.pipe(
-    map((r) => r.filter((req) => req.status === 'approved'))
+    map((r) => r.filter((req) => req.status === 'approved')),
   );
   readonly rejectedRequests$: Observable<ApprovalRequest[]> = this._requests$.pipe(
-    map((r) => r.filter((req) => req.status === 'rejected'))
+    map((r) => r.filter((req) => req.status === 'rejected')),
   );
 
   get requests(): ApprovalRequest[] {
     return this._requests$.getValue();
   }
 
-  submit(req: Omit<ApprovalRequest, 'id' | 'submittedAt' | 'updatedAt' | 'comments'>): ApprovalRequest {
+  submit(
+    req: Omit<ApprovalRequest, 'id' | 'submittedAt' | 'updatedAt' | 'comments'>,
+  ): ApprovalRequest {
     const newRequest: ApprovalRequest = {
       ...req,
       id: `ar${++this.nextId}`,
@@ -161,7 +193,12 @@ export class ApprovalService {
         createdAt: now,
         isDecision: true,
       };
-      return { ...r, status: 'approved' as ApprovalStatus, updatedAt: now, comments: [...r.comments, newComment] };
+      return {
+        ...r,
+        status: 'approved' as ApprovalStatus,
+        updatedAt: now,
+        comments: [...r.comments, newComment],
+      };
     });
     this._requests$.next(requests);
   }
@@ -178,15 +215,22 @@ export class ApprovalService {
         createdAt: now,
         isDecision: true,
       };
-      return { ...r, status: 'rejected' as ApprovalStatus, updatedAt: now, comments: [...r.comments, newComment] };
+      return {
+        ...r,
+        status: 'rejected' as ApprovalStatus,
+        updatedAt: now,
+        comments: [...r.comments, newComment],
+      };
     });
     this._requests$.next(requests);
   }
 
   cancel(id: string): void {
-    const requests = this._requests$.getValue().map((r) =>
-      r.id === id ? { ...r, status: 'cancelled' as ApprovalStatus, updatedAt: new Date() } : r
-    );
+    const requests = this._requests$
+      .getValue()
+      .map((r) =>
+        r.id === id ? { ...r, status: 'cancelled' as ApprovalStatus, updatedAt: new Date() } : r,
+      );
     this._requests$.next(requests);
   }
 
@@ -199,9 +243,13 @@ export class ApprovalService {
       createdAt: new Date(),
       isDecision: false,
     };
-    const requests = this._requests$.getValue().map((r) =>
-      r.id === requestId ? { ...r, comments: [...r.comments, newComment], updatedAt: new Date() } : r
-    );
+    const requests = this._requests$
+      .getValue()
+      .map((r) =>
+        r.id === requestId
+          ? { ...r, comments: [...r.comments, newComment], updatedAt: new Date() }
+          : r,
+      );
     this._requests$.next(requests);
   }
 

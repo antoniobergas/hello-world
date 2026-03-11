@@ -17,7 +17,8 @@ type FilterOption = 'all' | LeaveStatus;
         <button
           class="leave-filter-btn"
           [ngClass]="{ active: activeFilter() === f }"
-          (click)="activeFilter.set(f)">
+          (click)="activeFilter.set(f)"
+        >
           {{ f | uppercase }}
         </button>
       }
@@ -77,41 +78,154 @@ type FilterOption = 'all' | LeaveStatus;
   `,
   styles: [
     `
-      h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-      .filter-bar { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .filter-bar {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
       .leave-filter-btn {
-        padding: 0.4rem 0.9rem; border: 1px solid #d1d5db; border-radius: 20px;
-        background: #f9fafb; font-size: 0.85rem; cursor: pointer;
+        padding: 0.4rem 0.9rem;
+        border: 1px solid #d1d5db;
+        border-radius: 20px;
+        background: #f9fafb;
+        font-size: 0.85rem;
+        cursor: pointer;
       }
-      .leave-filter-btn.active { background: #064e3b; color: #fff; border-color: #064e3b; }
-      .leave-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+      .leave-filter-btn.active {
+        background: #064e3b;
+        color: #fff;
+        border-color: #064e3b;
+      }
+      .leave-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
       .leave-row {
-        display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;
-        padding: 0.75rem 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
       }
-      .leave-status { padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
-      .status-pending { background: #fef3c7; color: #d97706; }
-      .status-approved { background: #dcfce7; color: #15803d; }
-      .status-rejected { background: #fee2e2; color: #dc2626; }
-      .employee-name { font-weight: 600; min-width: 130px; }
-      .leave-type { color: #6b7280; text-transform: capitalize; }
-      .leave-dates { color: #374151; }
-      .leave-days { color: #6b7280; font-size: 0.85rem; }
-      .leave-reason { color: #6b7280; font-size: 0.85rem; flex: 1; }
-      .manager-actions { display: flex; gap: 0.5rem; margin-left: auto; }
-      .approve-btn { padding: 0.3rem 0.8rem; background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; border-radius: 4px; }
-      .reject-btn { padding: 0.3rem 0.8rem; background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; border-radius: 4px; }
-      .new-leave-btn { padding: 0.6rem 1.2rem; background: #064e3b; color: #fff; border: none; border-radius: 6px; font-size: 0.9rem; }
-      .form-panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; }
-      .form-panel h2 { margin-top: 0; }
-      .form-panel form { display: flex; flex-direction: column; gap: 0.75rem; max-width: 400px; }
-      .form-panel select, .form-panel input {
-        padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; font-size: 0.9rem;
+      .leave-status {
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
       }
-      .form-actions { display: flex; gap: 0.75rem; }
-      .submit-leave-btn { padding: 0.5rem 1rem; background: #064e3b; color: #fff; border: none; border-radius: 4px; }
-      .cancel-btn { padding: 0.5rem 1rem; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; }
-      .empty-state { color: #9ca3af; font-style: italic; }
+      .status-pending {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .status-approved {
+        background: #dcfce7;
+        color: #15803d;
+      }
+      .status-rejected {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      .employee-name {
+        font-weight: 600;
+        min-width: 130px;
+      }
+      .leave-type {
+        color: #6b7280;
+        text-transform: capitalize;
+      }
+      .leave-dates {
+        color: #374151;
+      }
+      .leave-days {
+        color: #6b7280;
+        font-size: 0.85rem;
+      }
+      .leave-reason {
+        color: #6b7280;
+        font-size: 0.85rem;
+        flex: 1;
+      }
+      .manager-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-left: auto;
+      }
+      .approve-btn {
+        padding: 0.3rem 0.8rem;
+        background: #dcfce7;
+        color: #15803d;
+        border: 1px solid #bbf7d0;
+        border-radius: 4px;
+      }
+      .reject-btn {
+        padding: 0.3rem 0.8rem;
+        background: #fee2e2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+        border-radius: 4px;
+      }
+      .new-leave-btn {
+        padding: 0.6rem 1.2rem;
+        background: #064e3b;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+      }
+      .form-panel {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .form-panel h2 {
+        margin-top: 0;
+      }
+      .form-panel form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        max-width: 400px;
+      }
+      .form-panel select,
+      .form-panel input {
+        padding: 0.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+      .form-actions {
+        display: flex;
+        gap: 0.75rem;
+      }
+      .submit-leave-btn {
+        padding: 0.5rem 1rem;
+        background: #064e3b;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+      }
+      .cancel-btn {
+        padding: 0.5rem 1rem;
+        background: #f3f4f6;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+      }
+      .empty-state {
+        color: #9ca3af;
+        font-style: italic;
+      }
     `,
   ],
 })
@@ -162,7 +276,10 @@ export class LeaveComponent implements OnInit {
     }
     const start = new Date(this.newRequest.startDate);
     const end = new Date(this.newRequest.endDate);
-    const days = Math.max(1, Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1);
+    const days = Math.max(
+      1,
+      Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1,
+    );
     this.workforceService.submitLeave({
       employeeId: this.newRequest.employeeId,
       type: this.newRequest.type,
@@ -175,5 +292,4 @@ export class LeaveComponent implements OnInit {
     this.newRequest = { employeeId: '', type: 'annual', startDate: '', endDate: '', reason: '' };
     this.showForm.set(false);
   }
-
 }

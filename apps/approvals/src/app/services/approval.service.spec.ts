@@ -43,7 +43,9 @@ describe('ApprovalService', () => {
   });
 
   it('should reject() set status to rejected and add a comment', () => {
-    const pending = service.requests.find((r) => r.status === 'pending' || r.status === 'in_review');
+    const pending = service.requests.find(
+      (r) => r.status === 'pending' || r.status === 'in_review',
+    );
     service.reject(pending!.id, 'Reviewer B', 'Not approved');
     const updated = service.getById(pending!.id);
     expect(updated!.status).toBe('rejected');

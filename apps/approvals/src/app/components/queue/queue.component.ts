@@ -17,7 +17,8 @@ type QueueFilter = 'all' | ApprovalStatus;
         <button
           class="queue-tab"
           [ngClass]="{ active: activeStatus() === tab }"
-          (click)="activeStatus.set(tab)">
+          (click)="activeStatus.set(tab)"
+        >
           {{ tab === 'in_review' ? 'In Review' : (tab | titlecase) }}
         </button>
       }
@@ -66,52 +67,172 @@ type QueueFilter = 'all' | ApprovalStatus;
       }
     </div>
 
-    <div class="queue-summary">
-      {{ pendingCount() }} requests pending
-    </div>
+    <div class="queue-summary">{{ pendingCount() }} requests pending</div>
   `,
   styles: [
     `
-      h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-      .tab-bar { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .tab-bar {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
       .queue-tab {
-        padding: 0.4rem 0.9rem; border: 1px solid #d1d5db; border-radius: 20px;
-        background: #f9fafb; font-size: 0.85rem; cursor: pointer; text-transform: capitalize;
+        padding: 0.4rem 0.9rem;
+        border: 1px solid #d1d5db;
+        border-radius: 20px;
+        background: #f9fafb;
+        font-size: 0.85rem;
+        cursor: pointer;
+        text-transform: capitalize;
       }
-      .queue-tab.active { background: #1e1b4b; color: #fff; border-color: #1e1b4b; }
-      .filters-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
-      .type-filter { padding: 0.4rem 0.6rem; border: 1px solid #d1d5db; border-radius: 4px; }
-      .approval-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+      .queue-tab.active {
+        background: #1e1b4b;
+        color: #fff;
+        border-color: #1e1b4b;
+      }
+      .filters-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+      .type-filter {
+        padding: 0.4rem 0.6rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+      }
+      .approval-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
       .approval-row {
-        background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem;
-        display: flex; flex-direction: column; gap: 0.5rem;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
       }
-      .row-main { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
-      .req-title { font-weight: 600; flex: 1; min-width: 200px; }
-      .type-badge, .priority-badge, .approval-status {
-        padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;
+      .row-main {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
       }
-      .type-expense { background: #fef3c7; color: #d97706; }
-      .type-leave { background: #dbeafe; color: #1d4ed8; }
-      .type-purchase { background: #dcfce7; color: #15803d; }
-      .type-travel { background: #f3e8ff; color: #7c3aed; }
-      .type-access { background: #fee2e2; color: #dc2626; }
-      .priority-low { background: #f3f4f6; color: #6b7280; }
-      .priority-normal { background: #e0f2fe; color: #0369a1; }
-      .priority-high { background: #fef3c7; color: #d97706; }
-      .priority-urgent { background: #fee2e2; color: #dc2626; }
-      .status-pending { background: #fef3c7; color: #d97706; }
-      .status-in_review { background: #dbeafe; color: #1d4ed8; }
-      .status-approved { background: #dcfce7; color: #15803d; }
-      .status-rejected { background: #fee2e2; color: #dc2626; }
-      .status-draft { background: #f3f4f6; color: #6b7280; }
-      .status-cancelled { background: #f3f4f6; color: #9ca3af; }
-      .row-meta { display: flex; gap: 1rem; font-size: 0.85rem; color: #6b7280; }
-      .row-actions { display: flex; gap: 0.5rem; }
-      .approve-btn { padding: 0.3rem 0.8rem; background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; border-radius: 4px; }
-      .reject-btn { padding: 0.3rem 0.8rem; background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; border-radius: 4px; }
-      .queue-summary { font-weight: 600; color: #374151; padding: 0.75rem 0; }
-      .empty-state { color: #9ca3af; font-style: italic; }
+      .req-title {
+        font-weight: 600;
+        flex: 1;
+        min-width: 200px;
+      }
+      .type-badge,
+      .priority-badge,
+      .approval-status {
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+      .type-expense {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .type-leave {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+      .type-purchase {
+        background: #dcfce7;
+        color: #15803d;
+      }
+      .type-travel {
+        background: #f3e8ff;
+        color: #7c3aed;
+      }
+      .type-access {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      .priority-low {
+        background: #f3f4f6;
+        color: #6b7280;
+      }
+      .priority-normal {
+        background: #e0f2fe;
+        color: #0369a1;
+      }
+      .priority-high {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .priority-urgent {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      .status-pending {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .status-in_review {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+      .status-approved {
+        background: #dcfce7;
+        color: #15803d;
+      }
+      .status-rejected {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      .status-draft {
+        background: #f3f4f6;
+        color: #6b7280;
+      }
+      .status-cancelled {
+        background: #f3f4f6;
+        color: #9ca3af;
+      }
+      .row-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.85rem;
+        color: #6b7280;
+      }
+      .row-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .approve-btn {
+        padding: 0.3rem 0.8rem;
+        background: #dcfce7;
+        color: #15803d;
+        border: 1px solid #bbf7d0;
+        border-radius: 4px;
+      }
+      .reject-btn {
+        padding: 0.3rem 0.8rem;
+        background: #fee2e2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+        border-radius: 4px;
+      }
+      .queue-summary {
+        font-weight: 600;
+        color: #374151;
+        padding: 0.75rem 0;
+      }
+      .empty-state {
+        color: #9ca3af;
+        font-style: italic;
+      }
     `,
   ],
 })

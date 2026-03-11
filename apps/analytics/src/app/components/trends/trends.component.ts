@@ -12,7 +12,12 @@ import { TrendSeries, DataPoint } from '../../models/metrics.model';
 
     <div class="controls">
       <label for="seriesSel">Series:</label>
-      <select class="series-select" id="seriesSel" [(ngModel)]="selectedSeriesId" (ngModelChange)="onSeriesChange()">
+      <select
+        class="series-select"
+        id="seriesSel"
+        [(ngModel)]="selectedSeriesId"
+        (ngModelChange)="onSeriesChange()"
+      >
         <option value="">Select a series...</option>
         @for (s of allSeries; track s.id) {
           <option [value]="s.id">{{ s.name }}</option>
@@ -23,7 +28,9 @@ import { TrendSeries, DataPoint } from '../../models/metrics.model';
     @if (selectedSeries()) {
       <div class="series-detail">
         <h2>{{ selectedSeries()!.name }}</h2>
-        <span class="series-category cat-{{ selectedSeries()!.category }}">{{ selectedSeries()!.category }}</span>
+        <span class="series-category cat-{{ selectedSeries()!.category }}">{{
+          selectedSeries()!.category
+        }}</span>
         <span class="series-unit">Unit: {{ selectedSeries()!.unit }}</span>
       </div>
 
@@ -36,16 +43,19 @@ import { TrendSeries, DataPoint } from '../../models/metrics.model';
               <div
                 class="point-bar"
                 [style.width.%]="getBarWidth(point.value)"
-                [style.background]="selectedSeries()!.color">
-              </div>
+                [style.background]="selectedSeries()!.color"
+              ></div>
             </div>
-            <span class="point-value">{{ point.value | number: '1.0-2' }} {{ selectedSeries()!.unit }}</span>
+            <span class="point-value"
+              >{{ point.value | number: '1.0-2' }} {{ selectedSeries()!.unit }}</span
+            >
           </div>
         }
       </div>
 
       <div class="trend-summary">
-        {{ selectedSeries()!.points.length }} data points | Latest: {{ latestValue() | number: '1.0-2' }} {{ selectedSeries()!.unit }}
+        {{ selectedSeries()!.points.length }} data points | Latest:
+        {{ latestValue() | number: '1.0-2' }} {{ selectedSeries()!.unit }}
       </div>
 
       <div class="stats-panel">
@@ -59,44 +69,139 @@ import { TrendSeries, DataPoint } from '../../models/metrics.model';
   `,
   styles: [
     `
-      h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-      .controls { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-      .series-select { padding: 0.4rem 0.6rem; border: 1px solid #d1d5db; border-radius: 4px; min-width: 220px; }
-      .series-detail { margin-bottom: 1.5rem; }
-      .series-detail h2 { margin: 0 0 0.5rem; font-size: 1.25rem; }
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .series-select {
+        padding: 0.4rem 0.6rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        min-width: 220px;
+      }
+      .series-detail {
+        margin-bottom: 1.5rem;
+      }
+      .series-detail h2 {
+        margin: 0 0 0.5rem;
+        font-size: 1.25rem;
+      }
       .series-category {
-        padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;
-        text-transform: capitalize; margin-right: 0.75rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: capitalize;
+        margin-right: 0.75rem;
       }
-      .cat-revenue { background: #dcfce7; color: #15803d; }
-      .cat-users { background: #dbeafe; color: #1d4ed8; }
-      .cat-performance { background: #fef3c7; color: #d97706; }
-      .cat-quality { background: #f3e8ff; color: #7c3aed; }
-      .cat-operations { background: #f1f5f9; color: #475569; }
-      .series-unit { font-size: 0.85rem; color: #6b7280; }
-      .data-points-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+      .cat-revenue {
+        background: #dcfce7;
+        color: #15803d;
+      }
+      .cat-users {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+      .cat-performance {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .cat-quality {
+        background: #f3e8ff;
+        color: #7c3aed;
+      }
+      .cat-operations {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      .series-unit {
+        font-size: 0.85rem;
+        color: #6b7280;
+      }
+      .data-points-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
       .data-point-row {
-        display: flex; align-items: center; gap: 1rem;
-        padding: 0.6rem 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.6rem 1rem;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
       }
-      .point-label { font-weight: 600; min-width: 40px; }
-      .point-date { color: #6b7280; font-size: 0.85rem; min-width: 80px; }
-      .point-bar-wrap { flex: 1; background: #f3f4f6; border-radius: 4px; height: 8px; overflow: hidden; }
-      .point-bar { height: 100%; border-radius: 4px; transition: width 0.3s ease; }
-      .point-value { min-width: 120px; text-align: right; font-weight: 600; color: #374151; }
+      .point-label {
+        font-weight: 600;
+        min-width: 40px;
+      }
+      .point-date {
+        color: #6b7280;
+        font-size: 0.85rem;
+        min-width: 80px;
+      }
+      .point-bar-wrap {
+        flex: 1;
+        background: #f3f4f6;
+        border-radius: 4px;
+        height: 8px;
+        overflow: hidden;
+      }
+      .point-bar {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+      .point-value {
+        min-width: 120px;
+        text-align: right;
+        font-weight: 600;
+        color: #374151;
+      }
       .trend-summary {
-        background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px;
-        padding: 0.75rem 1rem; color: #0369a1; font-weight: 600; margin-bottom: 1rem;
+        background: #f0f9ff;
+        border: 1px solid #bae6fd;
+        border-radius: 6px;
+        padding: 0.75rem 1rem;
+        color: #0369a1;
+        font-weight: 600;
+        margin-bottom: 1rem;
       }
-      .stats-panel { display: flex; gap: 2rem; }
-      .stat-min, .stat-max, .stat-avg {
-        padding: 0.5rem 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
-        font-size: 0.9rem; color: #374151;
+      .stats-panel {
+        display: flex;
+        gap: 2rem;
       }
-      .stat-max { color: #15803d; }
-      .stat-min { color: #dc2626; }
-      .stat-avg { color: #1d4ed8; }
-      .empty-state { color: #9ca3af; font-style: italic; }
+      .stat-min,
+      .stat-max,
+      .stat-avg {
+        padding: 0.5rem 1rem;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        color: #374151;
+      }
+      .stat-max {
+        color: #15803d;
+      }
+      .stat-min {
+        color: #dc2626;
+      }
+      .stat-avg {
+        color: #1d4ed8;
+      }
+      .empty-state {
+        color: #9ca3af;
+        font-style: italic;
+      }
     `,
   ],
 })

@@ -1,5 +1,11 @@
 export type ApprovalType = 'expense' | 'leave' | 'purchase' | 'travel' | 'access';
-export type ApprovalStatus = 'draft' | 'pending' | 'in_review' | 'approved' | 'rejected' | 'cancelled';
+export type ApprovalStatus =
+  | 'draft'
+  | 'pending'
+  | 'in_review'
+  | 'approved'
+  | 'rejected'
+  | 'cancelled';
 export type ApprovalPriority = 'low' | 'normal' | 'high' | 'urgent';
 
 export interface ApprovalRequest {

@@ -11,7 +11,9 @@ import { Employee, Shift, ShiftStatus } from '../../models/employee.model';
     <h1>Employee Schedule</h1>
 
     <div class="toolbar">
-      <button class="week-nav-btn" aria-label="Previous week" (click)="prevWeek()">&#8592; Prev</button>
+      <button class="week-nav-btn" aria-label="Previous week" (click)="prevWeek()">
+        &#8592; Prev
+      </button>
       <span class="week-label">Week of {{ weekStart | date: 'mediumDate' }}</span>
       <button class="week-nav-btn" aria-label="Next week" (click)="nextWeek()">Next &#8594;</button>
     </div>
@@ -29,7 +31,11 @@ import { Employee, Shift, ShiftStatus } from '../../models/employee.model';
           <input name="shiftDate" type="date" [(ngModel)]="newShift.date" required />
           <input name="startTime" type="time" [(ngModel)]="newShift.startTime" required />
           <input name="endTime" type="time" [(ngModel)]="newShift.endTime" required />
-          <textarea name="notes" [(ngModel)]="newShift.notes" placeholder="Notes (optional)"></textarea>
+          <textarea
+            name="notes"
+            [(ngModel)]="newShift.notes"
+            placeholder="Notes (optional)"
+          ></textarea>
           <div class="form-actions">
             <button type="submit" class="save-shift-btn">Save Shift</button>
             <button type="button" class="cancel-btn" (click)="showForm.set(false)">Cancel</button>
@@ -61,35 +67,133 @@ import { Employee, Shift, ShiftStatus } from '../../models/employee.model';
   `,
   styles: [
     `
-      h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-      .toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-      .week-label { font-weight: 600; color: #374151; }
-      .week-nav-btn { padding: 0.4rem 0.8rem; border: 1px solid #d1d5db; border-radius: 4px; background: #fff; }
-      .shift-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .week-label {
+        font-weight: 600;
+        color: #374151;
+      }
+      .week-nav-btn {
+        padding: 0.4rem 0.8rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        background: #fff;
+      }
+      .shift-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
       .shift-row {
-        display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem;
-        background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
       }
-      .employee-name { font-weight: 600; min-width: 150px; }
-      .shift-date { color: #6b7280; min-width: 100px; }
-      .shift-time { color: #374151; min-width: 130px; }
-      .shift-status { padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
-      .status-scheduled { background: #dbeafe; color: #1d4ed8; }
-      .status-confirmed { background: #dcfce7; color: #15803d; }
-      .status-absent { background: #fee2e2; color: #dc2626; }
-      .status-completed { background: #f3f4f6; color: #374151; }
-      .schedule-summary { font-weight: 600; color: #374151; margin: 1rem 0; }
-      .add-shift-btn { padding: 0.6rem 1.2rem; background: #064e3b; color: #fff; border: none; border-radius: 6px; font-size: 0.9rem; }
-      .form-panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; }
-      .form-panel h2 { margin-top: 0; }
-      .form-panel form { display: flex; flex-direction: column; gap: 0.75rem; max-width: 400px; }
-      .form-panel select, .form-panel input, .form-panel textarea {
-        padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; font-size: 0.9rem;
+      .employee-name {
+        font-weight: 600;
+        min-width: 150px;
       }
-      .form-actions { display: flex; gap: 0.75rem; }
-      .save-shift-btn { padding: 0.5rem 1rem; background: #064e3b; color: #fff; border: none; border-radius: 4px; }
-      .cancel-btn { padding: 0.5rem 1rem; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; }
-      .empty-state { color: #9ca3af; font-style: italic; }
+      .shift-date {
+        color: #6b7280;
+        min-width: 100px;
+      }
+      .shift-time {
+        color: #374151;
+        min-width: 130px;
+      }
+      .shift-status {
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+      .status-scheduled {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+      .status-confirmed {
+        background: #dcfce7;
+        color: #15803d;
+      }
+      .status-absent {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      .status-completed {
+        background: #f3f4f6;
+        color: #374151;
+      }
+      .schedule-summary {
+        font-weight: 600;
+        color: #374151;
+        margin: 1rem 0;
+      }
+      .add-shift-btn {
+        padding: 0.6rem 1.2rem;
+        background: #064e3b;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+      }
+      .form-panel {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .form-panel h2 {
+        margin-top: 0;
+      }
+      .form-panel form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        max-width: 400px;
+      }
+      .form-panel select,
+      .form-panel input,
+      .form-panel textarea {
+        padding: 0.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+      .form-actions {
+        display: flex;
+        gap: 0.75rem;
+      }
+      .save-shift-btn {
+        padding: 0.5rem 1rem;
+        background: #064e3b;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+      }
+      .cancel-btn {
+        padding: 0.5rem 1rem;
+        background: #f3f4f6;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+      }
+      .empty-state {
+        color: #9ca3af;
+        font-style: italic;
+      }
     `,
   ],
 })
@@ -157,7 +261,12 @@ export class ScheduleComponent implements OnInit {
   }
 
   saveShift(): void {
-    if (!this.newShift.employeeId || !this.newShift.date || !this.newShift.startTime || !this.newShift.endTime) {
+    if (
+      !this.newShift.employeeId ||
+      !this.newShift.date ||
+      !this.newShift.startTime ||
+      !this.newShift.endTime
+    ) {
       return;
     }
     this.workforceService.addShift({

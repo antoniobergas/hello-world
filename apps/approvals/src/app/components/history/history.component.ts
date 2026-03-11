@@ -21,7 +21,11 @@ import { ApprovalRequest, ApprovalStatus, ApprovalType } from '../../models/appr
       </div>
       <div class="filter-group">
         <label>Type:</label>
-        <select class="history-type-filter" [(ngModel)]="filterType" (ngModelChange)="applyFilters()">
+        <select
+          class="history-type-filter"
+          [(ngModel)]="filterType"
+          (ngModelChange)="applyFilters()"
+        >
           <option value="all">All types</option>
           <option value="expense">Expense</option>
           <option value="leave">Leave</option>
@@ -32,7 +36,11 @@ import { ApprovalRequest, ApprovalStatus, ApprovalType } from '../../models/appr
       </div>
       <div class="filter-group">
         <label>Status:</label>
-        <select class="history-status-filter" [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+        <select
+          class="history-status-filter"
+          [(ngModel)]="filterStatus"
+          (ngModelChange)="applyFilters()"
+        >
           <option value="all">All statuses</option>
           <option value="draft">Draft</option>
           <option value="pending">Pending</option>
@@ -63,44 +71,133 @@ import { ApprovalRequest, ApprovalStatus, ApprovalType } from '../../models/appr
       }
     </div>
 
-    <div class="history-summary">
-      {{ filteredRequests.length }} total requests
-    </div>
+    <div class="history-summary">{{ filteredRequests.length }} total requests</div>
   `,
   styles: [
     `
-      h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-      .filter-bar { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-end; }
-      .filter-group { display: flex; flex-direction: column; gap: 0.25rem; }
-      .filter-group label { font-size: 0.8rem; font-weight: 600; color: #6b7280; }
-      .filter-group input, .filter-group select {
-        padding: 0.4rem 0.6rem; border: 1px solid #d1d5db; border-radius: 4px; font-size: 0.9rem;
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
       }
-      .history-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        align-items: flex-end;
+      }
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .filter-group label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #6b7280;
+      }
+      .filter-group input,
+      .filter-group select {
+        padding: 0.4rem 0.6rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+      .history-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
       .history-row {
-        display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;
-        padding: 0.75rem 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
       }
-      .history-id { color: #9ca3af; font-size: 0.8rem; min-width: 40px; }
-      .history-title { font-weight: 600; flex: 1; min-width: 180px; }
-      .type-badge, .history-status {
-        padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;
+      .history-id {
+        color: #9ca3af;
+        font-size: 0.8rem;
+        min-width: 40px;
       }
-      .type-expense { background: #fef3c7; color: #d97706; }
-      .type-leave { background: #dbeafe; color: #1d4ed8; }
-      .type-purchase { background: #dcfce7; color: #15803d; }
-      .type-travel { background: #f3e8ff; color: #7c3aed; }
-      .type-access { background: #fee2e2; color: #dc2626; }
-      .status-pending { background: #fef3c7; color: #d97706; }
-      .status-in_review { background: #dbeafe; color: #1d4ed8; }
-      .status-approved { background: #dcfce7; color: #15803d; }
-      .status-rejected { background: #fee2e2; color: #dc2626; }
-      .status-draft { background: #f3f4f6; color: #6b7280; }
-      .status-cancelled { background: #f3f4f6; color: #9ca3af; }
-      .history-by { color: #6b7280; font-size: 0.85rem; }
-      .history-submitted, .history-updated { color: #9ca3af; font-size: 0.8rem; }
-      .history-summary { font-weight: 600; color: #374151; padding: 0.5rem 0; }
-      .empty-state { color: #9ca3af; font-style: italic; }
+      .history-title {
+        font-weight: 600;
+        flex: 1;
+        min-width: 180px;
+      }
+      .type-badge,
+      .history-status {
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+      .type-expense {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .type-leave {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+      .type-purchase {
+        background: #dcfce7;
+        color: #15803d;
+      }
+      .type-travel {
+        background: #f3e8ff;
+        color: #7c3aed;
+      }
+      .type-access {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      .status-pending {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .status-in_review {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+      .status-approved {
+        background: #dcfce7;
+        color: #15803d;
+      }
+      .status-rejected {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      .status-draft {
+        background: #f3f4f6;
+        color: #6b7280;
+      }
+      .status-cancelled {
+        background: #f3f4f6;
+        color: #9ca3af;
+      }
+      .history-by {
+        color: #6b7280;
+        font-size: 0.85rem;
+      }
+      .history-submitted,
+      .history-updated {
+        color: #9ca3af;
+        font-size: 0.8rem;
+      }
+      .history-summary {
+        font-weight: 600;
+        color: #374151;
+        padding: 0.5rem 0;
+      }
+      .empty-state {
+        color: #9ca3af;
+        font-style: italic;
+      }
     `,
   ],
 })

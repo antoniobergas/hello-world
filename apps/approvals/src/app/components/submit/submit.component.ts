@@ -34,7 +34,13 @@ import { ApprovalType, ApprovalPriority } from '../../models/approval.model';
 
         <div class="form-group">
           <label>Description</label>
-          <textarea name="description" rows="4" placeholder="Describe your request..." [(ngModel)]="form.description" required></textarea>
+          <textarea
+            name="description"
+            rows="4"
+            placeholder="Describe your request..."
+            [(ngModel)]="form.description"
+            required
+          ></textarea>
         </div>
 
         <div class="form-group">
@@ -49,12 +55,22 @@ import { ApprovalType, ApprovalPriority } from '../../models/approval.model';
 
         <div class="form-group">
           <label>Requested By</label>
-          <input name="requestedBy" placeholder="Your name" [(ngModel)]="form.requestedBy" required />
+          <input
+            name="requestedBy"
+            placeholder="Your name"
+            [(ngModel)]="form.requestedBy"
+            required
+          />
         </div>
 
         <div class="form-group">
           <label>Amount (if applicable)</label>
-          <input name="amount" type="number" placeholder="Amount (if applicable)" [(ngModel)]="form.amount" />
+          <input
+            name="amount"
+            type="number"
+            placeholder="Amount (if applicable)"
+            [(ngModel)]="form.amount"
+          />
         </div>
 
         <div class="form-group">
@@ -77,22 +93,63 @@ import { ApprovalType, ApprovalPriority } from '../../models/approval.model';
   `,
   styles: [
     `
-      h1 { font-size: 1.5rem; margin-bottom: 1.5rem; }
-      .submission-success {
-        background: #dcfce7; border: 1px solid #bbf7d0; border-radius: 8px;
-        padding: 1.5rem; color: #15803d; font-size: 1.1rem; display: flex; align-items: center; gap: 1rem;
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
       }
-      .new-request-btn { padding: 0.4rem 0.8rem; background: #fff; border: 1px solid #15803d; border-radius: 4px; color: #15803d; margin-left: auto; }
-      .submit-form { max-width: 560px; display: flex; flex-direction: column; gap: 1rem; }
-      .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
-      .form-group label { font-weight: 600; font-size: 0.875rem; color: #374151; }
-      .form-group input, .form-group select, .form-group textarea {
-        padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;
-        font-size: 0.9rem; font-family: inherit;
+      .submission-success {
+        background: #dcfce7;
+        border: 1px solid #bbf7d0;
+        border-radius: 8px;
+        padding: 1.5rem;
+        color: #15803d;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .new-request-btn {
+        padding: 0.4rem 0.8rem;
+        background: #fff;
+        border: 1px solid #15803d;
+        border-radius: 4px;
+        color: #15803d;
+        margin-left: auto;
+      }
+      .submit-form {
+        max-width: 560px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .form-group label {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #374151;
+      }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-family: inherit;
       }
       .submit-request-btn {
-        padding: 0.65rem 1.5rem; background: #1e1b4b; color: #fff; border: none;
-        border-radius: 6px; font-size: 1rem; font-weight: 600; align-self: flex-start;
+        padding: 0.65rem 1.5rem;
+        background: #1e1b4b;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        align-self: flex-start;
       }
     `,
   ],
