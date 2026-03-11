@@ -25,7 +25,7 @@ type QueueFilter = 'all' | ApprovalStatus;
 
     <div class="filters-row">
       <label>Type:</label>
-      <select class="type-filter" [(ngModel)]="activeType" (ngModelChange)="applyFilters()">
+      <select class="type-filter" [(ngModel)]="activeType">
         <option value="all">All types</option>
         <option value="expense">Expense</option>
         <option value="leave">Leave</option>
@@ -123,25 +123,11 @@ export class QueueComponent implements OnInit {
   statusTabs: QueueFilter[] = ['all', 'pending', 'in_review', 'approved', 'rejected'];
 
   private allRequests: ApprovalRequest[] = [];
-  private _filtered: ApprovalRequest[] = [];
 
   ngOnInit(): void {
     this.approvalService.requests$.subscribe((reqs) => {
       this.allRequests = reqs;
-      this.applyFilters();
     });
-  }
-
-  applyFilters(): void {
-    let result = [...this.allRequests];
-    const status = this.activeStatus();
-    if (status !== 'all') {
-      result = result.filter((r) => r.status === status);
-    }
-    if (this.activeType !== 'all') {
-      result = result.filter((r) => r.type === (this.activeType as ApprovalType));
-    }
-    this._filtered = result;
   }
 
   filteredRequests(): ApprovalRequest[] {
@@ -166,9 +152,5 @@ export class QueueComponent implements OnInit {
 
   reject(id: string): void {
     this.approvalService.reject(id, 'Queue Manager', 'Rejected from queue');
-  }
-
-  titlecase(val: string): string {
-    return val.charAt(0).toUpperCase() + val.slice(1);
   }
 }
