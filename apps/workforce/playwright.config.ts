@@ -10,6 +10,9 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4203',
   },
+  expect: {
+    timeout: 10000,
+  },
   projects: [
     {
       name: 'chromium',
