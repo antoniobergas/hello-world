@@ -1,12 +1,12 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WorkforceService } from '../../services/workforce.service';
 import { Employee, Shift, ShiftStatus } from '../../models/employee.model';
 
 @Component({
   selector: 'app-schedule',
-  imports: [AsyncPipe, DatePipe, NgClass, FormsModule],
+  imports: [DatePipe, NgClass, FormsModule],
   template: `
     <h1>Employee Schedule</h1>
 

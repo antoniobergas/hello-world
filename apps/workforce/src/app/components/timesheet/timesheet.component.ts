@@ -1,12 +1,11 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WorkforceService } from '../../services/workforce.service';
 import { Employee, TimesheetEntry } from '../../models/employee.model';
 
 @Component({
   selector: 'app-timesheet',
-  imports: [NgClass, FormsModule],
+  imports: [FormsModule],
   template: `
     <h1>Timesheets</h1>
 

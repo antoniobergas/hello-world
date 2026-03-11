@@ -38,6 +38,15 @@ jobs:
       - name: TypeScript type check (reporting)
         run: npx tsc --noEmit -p apps/reporting/tsconfig.app.json
 
+      - name: TypeScript type check (workforce)
+        run: npx tsc --noEmit -p apps/workforce/tsconfig.app.json
+
+      - name: TypeScript type check (approvals)
+        run: npx tsc --noEmit -p apps/approvals/tsconfig.app.json
+
+      - name: TypeScript type check (analytics)
+        run: npx tsc --noEmit -p apps/analytics/tsconfig.app.json
+
       - name: Dependency security audit
         run: npm audit --audit-level=high
         continue-on-error: true
@@ -52,6 +61,15 @@ jobs:
 
       - name: Build reporting (production)
         run: npm run build:reporting -- --configuration production
+
+      - name: Build workforce (production)
+        run: npm run build:workforce -- --configuration production
+
+      - name: Build approvals (production)
+        run: npm run build:approvals -- --configuration production
+
+      - name: Build analytics (production)
+        run: npm run build:analytics -- --configuration production
 
       - name: Upload production builds
         uses: actions/upload-artifact@v4
@@ -70,6 +88,15 @@ jobs:
 
       - name: Run reporting unit tests
         run: npm run test:reporting
+
+      - name: Run workforce unit tests
+        run: npm run test:workforce
+
+      - name: Run approvals unit tests
+        run: npm run test:approvals
+
+      - name: Run analytics unit tests
+        run: npm run test:analytics
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
@@ -95,6 +122,39 @@ jobs:
         if: failure()
         with:
           name: playwright-report-appbench
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Run workforce E2E tests
+        run: npm run test:e2e:workforce
+
+      - name: Upload workforce Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-workforce
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Run approvals E2E tests
+        run: npm run test:e2e:approvals
+
+      - name: Upload approvals Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-approvals
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Run analytics E2E tests
+        run: npm run test:e2e:analytics
+
+      - name: Upload analytics Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-analytics
           path: playwright-report/
           retention-days: 7
 

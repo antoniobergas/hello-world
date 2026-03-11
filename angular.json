@@ -373,8 +373,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "apps/approvals/tsconfig.spec.json",
-            "runner": "vitest"
+            "tsConfig": "apps/approvals/tsconfig.spec.json"
           }
         }
       }
@@ -450,8 +449,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "apps/analytics/tsconfig.spec.json",
-            "runner": "vitest"
+            "tsConfig": "apps/analytics/tsconfig.spec.json"
           }
         }
       }
