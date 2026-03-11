@@ -92,7 +92,6 @@ test.describe('Analytics App - Alerts', () => {
     await page.fill('input[name="alertTitle"]', 'E2E Test Alert');
     await page.fill('textarea[name="alertDescription"]', 'Created by E2E test');
     await page.click('.save-alert-btn');
-    const afterCount = await page.locator('.alert-row').count();
-    expect(afterCount).toBeGreaterThan(beforeCount);
+    await expect(page.locator('.alert-row')).toHaveCount(beforeCount + 1);
   });
 });
