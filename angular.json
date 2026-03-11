@@ -301,6 +301,83 @@
           }
         }
       }
+    },
+    "approvals": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "inlineTemplate": true,
+          "inlineStyle": true
+        }
+      },
+      "root": "apps/approvals",
+      "sourceRoot": "apps/approvals/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/approvals",
+            "index": "apps/approvals/src/index.html",
+            "browser": "apps/approvals/src/main.ts",
+            "tsConfig": "apps/approvals/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "apps/approvals/src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "port": 4204
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "approvals:build:production"
+            },
+            "development": {
+              "buildTarget": "approvals:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "apps/approvals/tsconfig.spec.json",
+            "runner": "vitest"
+          }
+        }
+      }
     }
   }
 }
