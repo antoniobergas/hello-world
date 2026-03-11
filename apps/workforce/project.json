@@ -1,0 +1,65 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "workforce",
+  "projectType": "application",
+  "root": "apps/workforce",
+  "sourceRoot": "apps/workforce/src",
+  "tags": ["app:workforce", "type:application"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "options": {
+        "outputPath": "dist/workforce",
+        "index": "apps/workforce/src/index.html",
+        "browser": "apps/workforce/src/main.ts",
+        "tsConfig": "apps/workforce/tsconfig.app.json",
+        "assets": ["public"],
+        "styles": ["apps/workforce/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
+            { "type": "anyComponentStyle", "maximumWarning": "4kB", "maximumError": "8kB" }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "options": { "buildTarget": "workforce:build:development", "port": 4203 },
+      "configurations": {
+        "production": { "buildTarget": "workforce:build:production" },
+        "development": { "buildTarget": "workforce:build:development" }
+      },
+      "defaultConfiguration": "development"
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "tsConfig": "apps/workforce/tsconfig.spec.json",
+        "runner": "vitest"
+      }
+    },
+    "test:e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test --config apps/workforce/playwright.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prettier --check \"apps/workforce/src/**/*.ts\""
+      }
+    }
+  }
+}

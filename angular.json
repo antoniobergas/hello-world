@@ -93,14 +93,29 @@
             "index": "apps/portal/src/index.html",
             "browser": "apps/portal/src/main.ts",
             "tsConfig": "apps/portal/tsconfig.app.json",
-            "assets": [{ "glob": "**/*", "input": "public" }],
-            "styles": ["apps/portal/src/styles.css"]
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "apps/portal/src/styles.css"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
-                { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
-                { "type": "anyComponentStyle", "maximumWarning": "4kB", "maximumError": "8kB" }
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
               ],
               "outputHashing": "all"
             },
@@ -114,16 +129,24 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "options": { "port": 4201 },
+          "options": {
+            "port": 4201
+          },
           "configurations": {
-            "production": { "buildTarget": "portal:build:production" },
-            "development": { "buildTarget": "portal:build:development" }
+            "production": {
+              "buildTarget": "portal:build:production"
+            },
+            "development": {
+              "buildTarget": "portal:build:development"
+            }
           },
           "defaultConfiguration": "development"
         },
         "test": {
           "builder": "@angular/build:unit-test",
-          "options": { "tsConfig": "apps/portal/tsconfig.spec.json" }
+          "options": {
+            "tsConfig": "apps/portal/tsconfig.spec.json"
+          }
         }
       }
     },
@@ -146,14 +169,29 @@
             "index": "apps/reporting/src/index.html",
             "browser": "apps/reporting/src/main.ts",
             "tsConfig": "apps/reporting/tsconfig.app.json",
-            "assets": [{ "glob": "**/*", "input": "public" }],
-            "styles": ["apps/reporting/src/styles.css"]
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "apps/reporting/src/styles.css"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
-                { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
-                { "type": "anyComponentStyle", "maximumWarning": "4kB", "maximumError": "8kB" }
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
               ],
               "outputHashing": "all"
             },
@@ -167,16 +205,100 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "options": { "port": 4202 },
+          "options": {
+            "port": 4202
+          },
           "configurations": {
-            "production": { "buildTarget": "reporting:build:production" },
-            "development": { "buildTarget": "reporting:build:development" }
+            "production": {
+              "buildTarget": "reporting:build:production"
+            },
+            "development": {
+              "buildTarget": "reporting:build:development"
+            }
           },
           "defaultConfiguration": "development"
         },
         "test": {
           "builder": "@angular/build:unit-test",
-          "options": { "tsConfig": "apps/reporting/tsconfig.spec.json" }
+          "options": {
+            "tsConfig": "apps/reporting/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "workforce": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "inlineTemplate": true,
+          "inlineStyle": true
+        }
+      },
+      "root": "apps/workforce",
+      "sourceRoot": "apps/workforce/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/workforce",
+            "index": "apps/workforce/src/index.html",
+            "browser": "apps/workforce/src/main.ts",
+            "tsConfig": "apps/workforce/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "apps/workforce/src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "port": 4203
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "workforce:build:production"
+            },
+            "development": {
+              "buildTarget": "workforce:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "apps/workforce/tsconfig.spec.json"
+          }
         }
       }
     }
