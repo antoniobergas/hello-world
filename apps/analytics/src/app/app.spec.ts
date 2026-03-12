@@ -33,18 +33,14 @@ describe('App (Analytics)', () => {
   it('should include a link to Dashboard', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const links: HTMLElement[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.nav-links a'),
-    );
+    const links: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.nav-links a'));
     expect(links.some((l) => l.textContent?.includes('Dashboard'))).toBe(true);
   });
 
   it('should include a link to Alerts', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const links: HTMLElement[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.nav-links a'),
-    );
+    const links: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.nav-links a'));
     expect(links.some((l) => l.textContent?.includes('Alerts'))).toBe(true);
   });
 });

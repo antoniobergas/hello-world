@@ -33,18 +33,14 @@ describe('App (Workforce)', () => {
   it('should include a link to Schedule', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const links: HTMLElement[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.nav-links a'),
-    );
+    const links: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.nav-links a'));
     expect(links.some((l) => l.textContent?.includes('Schedule'))).toBe(true);
   });
 
   it('should include a link to Timesheets', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const links: HTMLElement[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.nav-links a'),
-    );
+    const links: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.nav-links a'));
     expect(links.some((l) => l.textContent?.includes('Timesheets'))).toBe(true);
   });
 });

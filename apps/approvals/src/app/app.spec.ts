@@ -33,18 +33,14 @@ describe('App (Approvals)', () => {
   it('should include a link to the Queue', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const links: HTMLElement[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.nav-links a'),
-    );
+    const links: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.nav-links a'));
     expect(links.some((l) => l.textContent?.includes('Queue'))).toBe(true);
   });
 
   it('should include a link to History', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const links: HTMLElement[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.nav-links a'),
-    );
+    const links: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.nav-links a'));
     expect(links.some((l) => l.textContent?.includes('History'))).toBe(true);
   });
 });

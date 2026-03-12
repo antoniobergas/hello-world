@@ -33,18 +33,14 @@ describe('App (Portal)', () => {
   it('should include a link to the Knowledge Base', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const links: HTMLElement[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.nav-links a'),
-    );
+    const links: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.nav-links a'));
     expect(links.some((l) => l.textContent?.includes('Knowledge Base'))).toBe(true);
   });
 
   it('should include a link to System Status', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const links: HTMLElement[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.nav-links a'),
-    );
+    const links: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('.nav-links a'));
     expect(links.some((l) => l.textContent?.includes('System Status'))).toBe(true);
   });
 });
