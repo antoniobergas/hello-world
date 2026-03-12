@@ -28,6 +28,18 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./apps/portal/tsconfig.app.json"
+    },
+    {
+      "path": "./apps/portal/tsconfig.spec.json"
+    },
+    {
+      "path": "./apps/reporting/tsconfig.app.json"
+    },
+    {
+      "path": "./apps/reporting/tsconfig.spec.json"
     }
   ]
 }

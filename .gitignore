@@ -6,6 +6,10 @@
 /out-tsc
 /bazel-out
 
+# NX cache
+.nx/cache
+.nx/workspace-data
+
 # Node
 /node_modules
 npm-debug.log
@@ -39,6 +43,11 @@ testem.log
 /typings
 __screenshots__/
 
+# Playwright
+/playwright-report
+/test-results
+
 # System files
 .DS_Store
 Thumbs.db
+

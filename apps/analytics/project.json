@@ -1,0 +1,65 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "analytics",
+  "projectType": "application",
+  "root": "apps/analytics",
+  "sourceRoot": "apps/analytics/src",
+  "tags": ["app:analytics", "type:application"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "options": {
+        "outputPath": "dist/analytics",
+        "index": "apps/analytics/src/index.html",
+        "browser": "apps/analytics/src/main.ts",
+        "tsConfig": "apps/analytics/tsconfig.app.json",
+        "assets": ["public"],
+        "styles": ["apps/analytics/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
+            { "type": "anyComponentStyle", "maximumWarning": "4kB", "maximumError": "8kB" }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "options": { "buildTarget": "analytics:build:development", "port": 4205 },
+      "configurations": {
+        "production": { "buildTarget": "analytics:build:production" },
+        "development": { "buildTarget": "analytics:build:development" }
+      },
+      "defaultConfiguration": "development"
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "tsConfig": "apps/analytics/tsconfig.spec.json",
+        "runner": "vitest"
+      }
+    },
+    "test:e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test --config apps/analytics/playwright.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prettier --check \"apps/analytics/src/**/*.ts\""
+      }
+    }
+  }
+}

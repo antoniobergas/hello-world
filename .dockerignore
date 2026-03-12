@@ -1,0 +1,9 @@
+node_modules
+dist
+.git
+.angular/cache
+playwright-report
+test-results
+coverage
+.vscode
+*.log

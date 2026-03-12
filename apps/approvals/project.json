@@ -1,0 +1,65 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "approvals",
+  "projectType": "application",
+  "root": "apps/approvals",
+  "sourceRoot": "apps/approvals/src",
+  "tags": ["app:approvals", "type:application"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "options": {
+        "outputPath": "dist/approvals",
+        "index": "apps/approvals/src/index.html",
+        "browser": "apps/approvals/src/main.ts",
+        "tsConfig": "apps/approvals/tsconfig.app.json",
+        "assets": ["public"],
+        "styles": ["apps/approvals/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
+            { "type": "anyComponentStyle", "maximumWarning": "4kB", "maximumError": "8kB" }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "options": { "buildTarget": "approvals:build:development", "port": 4204 },
+      "configurations": {
+        "production": { "buildTarget": "approvals:build:production" },
+        "development": { "buildTarget": "approvals:build:development" }
+      },
+      "defaultConfiguration": "development"
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "tsConfig": "apps/approvals/tsconfig.spec.json",
+        "runner": "vitest"
+      }
+    },
+    "test:e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test --config apps/approvals/playwright.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prettier --check \"apps/approvals/src/**/*.ts\""
+      }
+    }
+  }
+}
