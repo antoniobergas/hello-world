@@ -26,6 +26,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Cache Angular compiler output
+        uses: actions/cache@v4
+        with:
+          path: .angular/cache
+          key: angular-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            angular-cache-${{ runner.os }}-
+
+      - name: Cache Nx computation cache
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: nx-${{ runner.os }}-${{ hashFiles('package-lock.json', 'nx.json') }}
+          restore-keys: |
+            nx-${{ runner.os }}-
+
       - name: Check formatting
         run: npx prettier --check "src/**/*.ts" "apps/**/*.ts"
 
@@ -111,8 +127,20 @@ jobs:
 
       # ── E2E Tests ────────────────────────────────────────────────────────────
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
       - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
 
       - name: Run appbench E2E tests
         run: npm run test:e2e
