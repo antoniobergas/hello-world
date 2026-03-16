@@ -37,6 +37,8 @@ test.describe('Journey: new-employee workspace setup', () => {
 
     // 4. Navigate to Items and record the current total.
     await page.locator('nav.navbar a', { hasText: 'Items' }).click();
+    // Wait for Angular's async pipe to resolve before counting existing items.
+    await expect(page.locator('.item-row').first()).toBeVisible();
     const beforeCount = await page.locator('.item-row').count();
 
     // 5. Add a new high-priority task.
