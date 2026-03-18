@@ -14,33 +14,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # required for SonarQube blame data
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Cache Angular compiler output
-        uses: actions/cache@v4
-        with:
-          path: .angular/cache
-          key: angular-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            angular-cache-${{ runner.os }}-
-
-      - name: Cache Nx computation cache
-        uses: actions/cache@v4
-        with:
-          path: .nx/cache
-          key: nx-${{ runner.os }}-${{ hashFiles('package-lock.json', 'nx.json') }}
-          restore-keys: |
-            nx-${{ runner.os }}-
 
       - name: Check formatting
         run: npx prettier --check "src/**/*.ts" "apps/**/*.ts"
@@ -98,20 +79,8 @@ jobs:
 
       # ── E2E Tests ────────────────────────────────────────────────────────────
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        id: playwright-cache
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
       - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
-
-      - name: Install Playwright system dependencies
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
 
       - name: Run all E2E tests
         run: |
@@ -128,14 +97,6 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-      # ── Static Analysis ──────────────────────────────────────────────────────
-
-      - name: SonarQube analysis
-        uses: SonarSource/sonarcloud-github-action@v3
-        continue-on-error: true
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
       # ── Docker ───────────────────────────────────────────────────────────────
 
       - name: Set up Docker Buildx
@@ -148,5 +109,3 @@ jobs:
           push: false
           load: true
           tags: hello-angular-azdo:pr-${{ github.event.pull_request.number }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
